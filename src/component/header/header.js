@@ -1,62 +1,15 @@
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles({
-    root: {
-        width: '100%',
-        marginTop: '2%'
-    },
-});
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import "../../public/css/styles.css";
 
 export default function Header() {
-    const classes = useStyles();
-
-    return (
-        <div className={classes.root}>
-            <Typography variant="h1" component="h2">
-                Material UI Component Test
-            </Typography>
-            <Typography variant="h5" gutterBottom>
-                These are some useful components that would probably make a lot of sense for our to-do app.
-            </Typography>
-            {/* <Typography variant="h2" gutterBottom>
-                h2. Heading
-            </Typography>
-            <Typography variant="h3" gutterBottom>
-                h3. Heading
-            </Typography>
-            <Typography variant="h4" gutterBottom>
-                h4. Heading
-            </Typography>
-            <Typography variant="h6" gutterBottom>
-                h6. Heading
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-                subtitle1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-            </Typography>
-            <Typography variant="subtitle2" gutterBottom>
-                subtitle2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-                body1. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
-                dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-            </Typography>
-            <Typography variant="body2" gutterBottom>
-                body2. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos blanditiis tenetur
-                unde suscipit, quam beatae rerum inventore consectetur, neque doloribus, cupiditate numquam
-                dignissimos laborum fugiat deleniti? Eum quasi quidem quibusdam.
-            </Typography>
-            <Typography variant="button" display="block" gutterBottom>
-                button text
-            </Typography>
-            <Typography variant="caption" display="block" gutterBottom>
-                caption text
-            </Typography>
-            <Typography variant="overline" display="block" gutterBottom>
-                overline text
-            </Typography> */}
-        </div>
-    );
+  return (
+    <div className="MainHeader">
+      <Paper style={{ alignSelf: "center" }}>
+        {/* We can add some text here if we'd like. Try uncommenting the line below! */}
+        {/* <Typography variant="h1">Hello world! :D</Typography> */}
+      </Paper>
+    </div>
+  );
 }
