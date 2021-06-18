@@ -28,6 +28,23 @@ import Avatar from "@material-ui/core/Avatar";
 import BasicTextFields from "./BasicTextField";
 import { Chip } from "@material-ui/core";
 
+// Each new instantiated Task increments curId by one:
+let curId = 0;
+class Task {
+  /* someone remind me to make a default value for category because I might die if I
+     have to continue using this language without every conceivable type hint. It's
+     going to be an as yet undefined object though so I still have to think about it.
+  */
+ constructor(title="Do homework", category) {
+    this.title = title;
+    this.category = category;
+    this.id = curId;
+    curId = curId + 1;
+    this.done = false;
+    // optional: this.date = new Date() if anyone wants encapsulation of the date
+  }
+}
+
 // This overrides the default MUI theme colors.
 const customTheme = createMuiTheme({
   palette: {
@@ -102,10 +119,11 @@ export default function FloatingActionButtonZoom() {
   // STATE
   const [value, setValue] = React.useState(0);
   const [checked, setChecked] = React.useState([]);
+  /* !!! The following must be replaced with not a generic list of tasks !!! */
   const [allEntries, setAllEntries] = useState([
-    { id: 0, title: "Do homework", done: false },
-    { id: 1, title: "Eat dinner", done: false },
-    { id: 2, title: "Spend time with family", done: false },
+    new Task("Do homework"),
+    new Task("Eat dinner"),
+    new Task("Spend time with family")
   ]);
 
   // FUNCTIONS
@@ -323,8 +341,18 @@ export default function FloatingActionButtonZoom() {
               className={fab.className}
               color={fab.color}
               onClick={() => {
-                // We should use this to implement adding new to-do entries!
-                console.log("onClick");
+                /* We should use this to implement adding new to-do entries!
+                   They can be added as objects of the form:
+
+                      new Task("string that describes the task", [Category object])
+                      
+                   The Task.title attribute of each instantiated Task contains
+                   the first string (handy for confirming we have no duplicate
+                   items). The Task.category attribute of each instantiated Task
+                   contains the Category object, which is a data type yet to be
+                   defined that will represent categories, details TBD.
+                */
+                console.log("onClick")
               }}
             >
               {fab.icon}
