@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Grid from '@material-ui/core/Grid';
 import TextField from "@material-ui/core/TextField";
 import { Avatar, InputLabel, ListItemAvatar, MenuItem } from "@material-ui/core";
 import Select from '@material-ui/core/Select';
@@ -126,30 +127,40 @@ export default function BasicTextFields() {
   // the function as a prop down more than once!
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
-      <Toolbar style={{ width: "100%" }}>
-        <TextField
-          id="standard-basic"
-          label="I need to..."
-          color="secondary"
-          inputProps={{
-            style: {
-              textAlign: "left",
-              verticalAlign: "center",
-              width: "36rem",
-            },
-          }}
-        />
-        <div className={classes.fabRoot}>
-          <Fab color="primary" aria-label="add" variant="extended">
-            <AddIcon
-              onClick={() => {
-                alert("Ability to add entry is not yet functional");
-              }}
-            />
-          </Fab>
-        </div>
-      </Toolbar>
-    </form>
+    
+  <form className={classes.root} noValidate autoComplete="off">
+    <Toolbar style={{ width: "100%" }}>
+      <Grid container spacing={5}>
+        <Grid item>
+          <TextField
+            id="standard-basic"
+            label="I need to..."
+            color="secondary"
+            inputProps={{
+              style: {
+                textAlign: "left",
+                verticalAlign: "center",
+                width: "36rem",
+              },
+            }}
+          />
+        </Grid>
+        <Grid item>
+          <CategorySelect/>
+        </Grid>
+        <Grid item>
+          <div className={classes.fabRoot}>
+            <Fab color="primary" aria-label="add" variant="extended">
+              <AddIcon
+                onClick={() => {
+                  alert("Ability to add entry is not yet functional");
+                }}
+              />
+            </Fab>
+          </div>
+        </Grid>
+      </Grid>
+    </Toolbar>
+  </form>
   );
 }
