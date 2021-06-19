@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
 export default function BasicTextFields() {
   const classes = useStyles();
 
+  // ***For Lauren***
+  // Just a basic text field and add button to get you started. Feel free to style it as you'd like!
+  // List state is stored inside of MainGrid.js, so you'll need to make your DeleteFunction there
+  // Because the file structure is MainGrid.js > TabPanel.js > BasicTextField, you'll need to pass
+  // the function as a prop down more than once!
+
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <Toolbar style={{ width: "100%" }}>
@@ -43,7 +49,11 @@ export default function BasicTextFields() {
         />
         <div className={classes.fabRoot}>
           <Fab color="primary" aria-label="add" variant="extended">
-            <AddIcon />
+            <AddIcon
+              onClick={() => {
+                alert("Ability to add entry is not yet functional");
+              }}
+            />
           </Fab>
         </div>
       </Toolbar>

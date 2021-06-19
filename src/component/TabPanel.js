@@ -27,6 +27,9 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import BasicTextField from "./BasicTextField";
 import { Chip } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 // Each new instantiated Task increments curId by one:
 let curId = 0;
@@ -118,20 +121,9 @@ export default function FloatingActionButtonZoom(props) {
 
   // STATE
   const [value, setValue] = React.useState(0);
-  const [checked, setChecked] = React.useState([]);
-  /* !!! The following must be replaced with not a generic list of tasks !!! */
-  const [fakeEntries, setAllEntries] = useState([
-    new Task("Do homework"),
-    new Task("Eat dinner"),
-    new Task("Spend time with family"),
-    new Task("Watch k-dramas"),
-    new Task("Do chores"),
-    new Task("Cook breakfast"),
-    new Task("Watch sunset"),
-  ]);
-  var allEntries = props.listOfEntries;
+  var allEntries = props.listOfEntries; // We receive the list of all to-do list entries from MainGrid.js. Props are useful!
 
-  // FUNCTIONS
+  // FUNCTIONS (no need to edit these ones in particular)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -169,28 +161,6 @@ export default function FloatingActionButtonZoom(props) {
     },
   ];
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-
-    var newState = [];
-    allEntries.map((_value) => {
-      if (_value.id === value.id) {
-        _value.done = !_value.done;
-      }
-      newState.push(_value);
-    });
-    setAllEntries(newState);
-  };
-
   const CheckboxListSecondary = () => {
     return (
       <Paper style={{ width: "100%", maxHeight: "25rem", overflow: "auto" }}>
@@ -203,7 +173,7 @@ export default function FloatingActionButtonZoom(props) {
               <ListItem
                 className={classes.listItem}
                 key={value.id}
-                disabled={true}
+                disabled={false}
                 style={{
                   width: "100%",
                   height: "5rem",
@@ -211,6 +181,20 @@ export default function FloatingActionButtonZoom(props) {
                   opacity: value.done === false ? 1 : 0.5,
                 }}
               >
+                <IconButton
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => {
+                    // ***For Lauren***
+                    // It should be fairly convenient to use `value` and `allEntries`
+                    // You will need to make a DeleteEntry function though inside MainGrid.js,
+                    // pass it down as a prop, and call it here! Feel free to edit the style of the icon button, etc.
+                    alert("Ability to delete is not yet functional");
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+
                 {/* Displays an avatar. Maybe we can replace this with an icon later,
                 depending on what they categorize the task as? */}
                 <ListItemAvatar>
@@ -231,12 +215,26 @@ export default function FloatingActionButtonZoom(props) {
                 {/* Displays name (title) of task. */}
                 <ListItemText id={labelId} primary={value.title} />
 
+                <IconButton
+                  aria-label="edit"
+                  color="primary"
+                  onClick={() => {
+                    // ***For Rachel***
+                    // It should be fairly convenient to use `value` and `allEntries`
+                    // You will need to make an EditEntry function though inside MainGrid.js,
+                    // pass it down as a prop, and call it here! Feel free to edit the style of the icon button, etc.
+                    alert("Ability to edit is not yet functional");
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+
                 {/* Checkbox components; shows task status. */}
                 <ListItemSecondaryAction>
                   <Checkbox
                     edge="end"
-                    onChange={handleToggle(value)}
-                    checked={checked.indexOf(value) !== -1}
+                    onChange={props.remotelyHandleToggle(value)}
+                    checked={value.done !== false}
                     inputProps={{ "aria-labelledby": labelId }}
                   />
                 </ListItemSecondaryAction>
