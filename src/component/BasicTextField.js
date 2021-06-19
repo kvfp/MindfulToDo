@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from '@material-ui/core/Grid';
 import TextField from "@material-ui/core/TextField";
-import { Avatar, InputLabel, ListItemAvatar, MenuItem } from "@material-ui/core";
+import { Avatar, FormControl, InputLabel, ListItemAvatar, MenuItem } from "@material-ui/core";
 import Select from '@material-ui/core/Select';
 import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
@@ -30,6 +30,12 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   fabRoot: {},
+  catSelect: {
+    margin: theme.spacing(1),
+    minWidth: 150,
+  },
+  selectLabel: {
+  }
 }));
 ////////////////////////////////////////////////////////////////////////////////
 const categoryData = {
@@ -90,6 +96,8 @@ const categoryData = {
 };
 
 function CategorySelect() {
+  const classes = useStyles();
+
   // category is "chores", "hobbies", "school", "self-care", "social", or "work"
   const [category, setCategory] = React.useState("");
 
@@ -98,9 +106,10 @@ function CategorySelect() {
   }
 
   return (
-    <Paper id="category-selector-component">
+    <FormControl className={classes.catSelect}>
       <InputLabel>Category</InputLabel>
       <Select
+        className={classes.selectLabel}
         variant="outlined"
         id="category-selection"
         value={category}
@@ -113,7 +122,7 @@ function CategorySelect() {
         <MenuItem value={"Social"}>Social</MenuItem>
         <MenuItem value={"work"}>Work</MenuItem>
       </Select>
-    </Paper>
+    </FormControl>
   )
 }
 // EXPORT
