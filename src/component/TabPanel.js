@@ -11,7 +11,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import UpIcon from "@material-ui/icons/KeyboardArrowUp";
-import { green } from "@material-ui/core/colors";
+import { green, red } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { indigo, orange, pink, cyan } from "@material-ui/core/colors";
@@ -25,7 +25,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
-import BasicTextFields from "./BasicTextField";
+import BasicTextField from "./BasicTextField";
 import { Chip } from "@material-ui/core";
 
 // Each new instantiated Task increments curId by one:
@@ -35,7 +35,7 @@ class Task {
      have to continue using this language without every conceivable type hint. It's
      going to be an as yet undefined object though so I still have to think about it.
   */
- constructor(title="Do homework", category) {
+  constructor(title = "Do homework", category) {
     this.title = title;
     this.category = category;
     this.id = curId;
@@ -112,7 +112,7 @@ function a11yProps(index) {
   };
 }
 
-export default function FloatingActionButtonZoom() {
+export default function FloatingActionButtonZoom(props) {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -120,11 +120,16 @@ export default function FloatingActionButtonZoom() {
   const [value, setValue] = React.useState(0);
   const [checked, setChecked] = React.useState([]);
   /* !!! The following must be replaced with not a generic list of tasks !!! */
-  const [allEntries, setAllEntries] = useState([
+  const [fakeEntries, setAllEntries] = useState([
     new Task("Do homework"),
     new Task("Eat dinner"),
-    new Task("Spend time with family")
+    new Task("Spend time with family"),
+    new Task("Watch k-dramas"),
+    new Task("Do chores"),
+    new Task("Cook breakfast"),
+    new Task("Watch sunset"),
   ]);
+  var allEntries = props.listOfEntries;
 
   // FUNCTIONS
   const handleChange = (event, newValue) => {
@@ -188,7 +193,7 @@ export default function FloatingActionButtonZoom() {
 
   const CheckboxListSecondary = () => {
     return (
-      <Paper style={{ width: "100%", maxHeight: "33rem", overflow: "auto" }}>
+      <Paper style={{ width: "100%", maxHeight: "25rem", overflow: "auto" }}>
         <List dense className={classes.root}>
           {allEntries.map((value) => {
             const labelId = `checkbox-list-secondary-label-${value.id}`;
@@ -299,18 +304,30 @@ export default function FloatingActionButtonZoom() {
             value={value}
             index={0}
             dir={theme.direction}
-            style={{ backgroundColor: "#264653", width: "100%" }}
+            style={{ width: "100%" }}
           >
             {/* Contents of tab 1. */}
             <Paper
               style={{
-                backgroundColor: "red",
+                // backgroundColor: "red",
                 width: "100%",
                 margin: 0,
                 padding: 0,
               }}
             >
               {CheckboxListSecondary()}
+            </Paper>
+            <Paper
+              elevation={5}
+              style={{
+                marginTop: "1rem",
+                alignContent: "left",
+                justifyContent: "left",
+                width: "100%",
+                marginLeft: "0rem",
+              }}
+            >
+              <BasicTextField />
             </Paper>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
@@ -322,43 +339,6 @@ export default function FloatingActionButtonZoom() {
             Item Three
           </TabPanel>
         </SwipeableViews>
-
-        {/* Fab component stuff below. */}
-        {fabs.map((fab, index) => (
-          <Zoom
-            key={fab.color}
-            in={value === index}
-            timeout={transitionDuration}
-            style={{
-              transitionDelay: `${
-                value === index ? transitionDuration.exit : 0
-              }ms`,
-            }}
-            unmountOnExit
-          >
-            <Fab
-              aria-label={fab.label}
-              className={fab.className}
-              color={fab.color}
-              onClick={() => {
-                /* We should use this to implement adding new to-do entries!
-                   They can be added as objects of the form:
-
-                      new Task("string that describes the task", [Category object])
-                      
-                   The Task.title attribute of each instantiated Task contains
-                   the first string (handy for confirming we have no duplicate
-                   items). The Task.category attribute of each instantiated Task
-                   contains the Category object, which is a data type yet to be
-                   defined that will represent categories, details TBD.
-                */
-                console.log("onClick")
-              }}
-            >
-              {fab.icon}
-            </Fab>
-          </Zoom>
-        ))}
       </div>
     </ThemeProvider>
   );
