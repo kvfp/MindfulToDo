@@ -33,8 +33,8 @@ let curId = 0;
 class Task {
   /**
    * Creates a Task object given the name of the task (any string) and the name
-   * of its category (strings from a predetermined set: "work", "school","self-
-   * care", "hobbies", and "social").
+   * of its category (strings from a predetermined set: "work", "school","chores",
+   * "self-care", "hobbies", and "social").
    * 
    * @param {string} title the name of the task that appears in the list
    * @param {string} category the name of the task category
