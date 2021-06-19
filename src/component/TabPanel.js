@@ -27,7 +27,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import BasicTextFields from "./BasicTextField";
 import { Chip } from "@material-ui/core";
-////////////////////////////////////////////////////////////////////////////////
+
 // Each new instantiated Task increments curId by one:
 let curId = 0;
 class Task {
