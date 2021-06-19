@@ -11,7 +11,7 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import UpIcon from "@material-ui/icons/KeyboardArrowUp";
-import { green } from "@material-ui/core/colors";
+import { green, red } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { indigo, orange, pink, cyan } from "@material-ui/core/colors";
@@ -25,8 +25,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
-import BasicTextFields from "./BasicTextField";
+import BasicTextField from "./BasicTextField";
 import { Chip } from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 // Each new instantiated Task increments curId by one:
 let curId = 0;
@@ -116,21 +119,15 @@ function a11yProps(index) {
   };
 }
 
-export default function FloatingActionButtonZoom() {
+export default function FloatingActionButtonZoom(props) {
   const classes = useStyles();
   const theme = useTheme();
 
   // STATE
   const [value, setValue] = React.useState(0);
-  const [checked, setChecked] = React.useState([]);
-  /* !!! The following must be replaced with not a generic list of tasks !!! */
-  const [allEntries, setAllEntries] = useState([
-    new Task("Do homework"),
-    new Task("Eat dinner"),
-    new Task("Spend time with family")
-  ]);
+  var allEntries = props.listOfEntries; // We receive the list of all to-do list entries from MainGrid.js. Props are useful!
 
-  // FUNCTIONS
+  // FUNCTIONS (no need to edit these ones in particular)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -168,31 +165,9 @@ export default function FloatingActionButtonZoom() {
     },
   ];
 
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-
-    var newState = [];
-    allEntries.map((_value) => {
-      if (_value.id === value.id) {
-        _value.done = !_value.done;
-      }
-      newState.push(_value);
-    });
-    setAllEntries(newState);
-  };
-
   const CheckboxListSecondary = () => {
     return (
-      <Paper style={{ width: "100%", maxHeight: "33rem", overflow: "auto" }}>
+      <Paper style={{ width: "100%", maxHeight: "25rem", overflow: "auto" }}>
         <List dense className={classes.root}>
           {allEntries.map((value) => {
             const labelId = `checkbox-list-secondary-label-${value.id}`;
@@ -202,7 +177,7 @@ export default function FloatingActionButtonZoom() {
               <ListItem
                 className={classes.listItem}
                 key={value.id}
-                disabled={true}
+                disabled={false}
                 style={{
                   width: "100%",
                   height: "5rem",
@@ -210,6 +185,20 @@ export default function FloatingActionButtonZoom() {
                   opacity: value.done === false ? 1 : 0.5,
                 }}
               >
+                <IconButton
+                  aria-label="delete"
+                  color="primary"
+                  onClick={() => {
+                    // ***For Lauren***
+                    // It should be fairly convenient to use `value` and `allEntries`
+                    // You will need to make a DeleteEntry function though inside MainGrid.js,
+                    // pass it down as a prop, and call it here! Feel free to edit the style of the icon button, etc.
+                    alert("Ability to delete is not yet functional");
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+
                 {/* Displays an avatar. Maybe we can replace this with an icon later,
                 depending on what they categorize the task as? */}
                 <ListItemAvatar>
@@ -230,12 +219,26 @@ export default function FloatingActionButtonZoom() {
                 {/* Displays name (title) of task. */}
                 <ListItemText id={labelId} primary={value.title} />
 
+                <IconButton
+                  aria-label="edit"
+                  color="primary"
+                  onClick={() => {
+                    // ***For Rachel***
+                    // It should be fairly convenient to use `value` and `allEntries`
+                    // You will need to make an EditEntry function though inside MainGrid.js,
+                    // pass it down as a prop, and call it here! Feel free to edit the style of the icon button, etc.
+                    alert("Ability to edit is not yet functional");
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+
                 {/* Checkbox components; shows task status. */}
                 <ListItemSecondaryAction>
                   <Checkbox
                     edge="end"
-                    onChange={handleToggle(value)}
-                    checked={checked.indexOf(value) !== -1}
+                    onChange={props.remotelyHandleToggle(value)}
+                    checked={value.done !== false}
                     inputProps={{ "aria-labelledby": labelId }}
                   />
                 </ListItemSecondaryAction>
@@ -303,18 +306,30 @@ export default function FloatingActionButtonZoom() {
             value={value}
             index={0}
             dir={theme.direction}
-            style={{ backgroundColor: "#264653", width: "100%" }}
+            style={{ width: "100%" }}
           >
             {/* Contents of tab 1. */}
             <Paper
               style={{
-                backgroundColor: "red",
+                // backgroundColor: "red",
                 width: "100%",
                 margin: 0,
                 padding: 0,
               }}
             >
               {CheckboxListSecondary()}
+            </Paper>
+            <Paper
+              elevation={5}
+              style={{
+                marginTop: "1rem",
+                alignContent: "left",
+                justifyContent: "left",
+                width: "100%",
+                marginLeft: "0rem",
+              }}
+            >
+              <BasicTextField />
             </Paper>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
@@ -326,43 +341,6 @@ export default function FloatingActionButtonZoom() {
             Item Three
           </TabPanel>
         </SwipeableViews>
-
-        {/* Fab component stuff below. */}
-        {fabs.map((fab, index) => (
-          <Zoom
-            key={fab.color}
-            in={value === index}
-            timeout={transitionDuration}
-            style={{
-              transitionDelay: `${
-                value === index ? transitionDuration.exit : 0
-              }ms`,
-            }}
-            unmountOnExit
-          >
-            <Fab
-              aria-label={fab.label}
-              className={fab.className}
-              color={fab.color}
-              onClick={() => {
-                /* We should use this to implement adding new to-do entries!
-                   They can be added as objects of the form:
-
-                      new Task("string that describes the task", [Category object])
-                      
-                   The Task.title attribute of each instantiated Task contains
-                   the first string (handy for confirming we have no duplicate
-                   items). The Task.category attribute of each instantiated Task
-                   contains the Category object, which is a data type yet to be
-                   defined that will represent categories, details TBD.
-                */
-                console.log("onClick")
-              }}
-            >
-              {fab.icon}
-            </Fab>
-          </Zoom>
-        ))}
       </div>
     </ThemeProvider>
   );
