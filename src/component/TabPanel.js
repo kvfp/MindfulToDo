@@ -27,14 +27,18 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import BasicTextFields from "./BasicTextField";
 import { Chip } from "@material-ui/core";
-
+////////////////////////////////////////////////////////////////////////////////
 // Each new instantiated Task increments curId by one:
 let curId = 0;
 class Task {
-  /* someone remind me to make a default value for category because I might die if I
-     have to continue using this language without every conceivable type hint. It's
-     going to be an as yet undefined object though so I still have to think about it.
-  */
+  /**
+   * Creates a Task object given the name of the task (any string) and the name
+   * of its category (strings from a predetermined set: "work", "school","self-
+   * care", "hobbies", and "social").
+   * 
+   * @param {string} title the name of the task that appears in the list
+   * @param {string} category the name of the task category
+   */
  constructor(title="Do homework", category) {
     this.title = title;
     this.category = category;
