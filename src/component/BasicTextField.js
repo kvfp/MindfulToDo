@@ -1,13 +1,19 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import { InputLabel, MenuItem } from "@material-ui/core";
+import { Avatar, InputLabel, ListItemAvatar, MenuItem } from "@material-ui/core";
 import Select from '@material-ui/core/Select';
 import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import DoneIcon from '@material-ui/icons/Done';
+import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import GroupIcon from '@material-ui/icons/Group';
+import SchoolIcon from '@material-ui/icons/School';
+import WorkIcon from '@material-ui/icons/Work';
 
 // STYLING
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +31,63 @@ const useStyles = makeStyles((theme) => ({
   fabRoot: {},
 }));
 ////////////////////////////////////////////////////////////////////////////////
+const categoryData = {
+  "chores": function() {
+    return (
+      <ListItemAvatar>
+        <Avatar>
+          <DoneIcon/>
+        </Avatar>
+      </ListItemAvatar>
+    )
+  },
+  "hobbies": function() {
+    return (
+      <ListItemAvatar>
+        <Avatar>
+          <EmojiEmotionsIcon/>
+        </Avatar>
+      </ListItemAvatar>
+    )
+  },
+  "school": function() {
+    return (
+      <ListItemAvatar>
+        <Avatar>
+          <SchoolIcon/>
+        </Avatar>
+      </ListItemAvatar>
+    )
+  },
+  "self-care": function() {
+    return (
+      <ListItemAvatar>
+        <Avatar>
+          <FavoriteIcon/>
+        </Avatar>
+      </ListItemAvatar>
+    )
+  },
+  "social": function() {
+    return (
+      <ListItemAvatar>
+        <Avatar>
+          <GroupIcon/>
+        </Avatar>
+      </ListItemAvatar>
+    )
+  },
+  "work": function() {
+    return (
+      <ListItemAvatar>
+        <Avatar>
+          <WorkIcon/>
+        </Avatar>
+      </ListItemAvatar>
+    )
+  }
+};
+
 function CategorySelect() {
   // category is "chores", "hobbies", "school", "self-care", "social", or "work"
   const [category, setCategory] = React.useState("");
@@ -32,6 +95,7 @@ function CategorySelect() {
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
   }
+
   return (
     <Paper id="category-selector-component">
       <InputLabel>Category</InputLabel>
