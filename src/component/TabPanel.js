@@ -25,11 +25,44 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
+import Icon from '@material-ui/core/Icon';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import BasicTextField from "./BasicTextField";
 import { Chip } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
+import DoneIcon from '@material-ui/icons/Done';
+import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import GroupIcon from '@material-ui/icons/Group';
+import SchoolIcon from '@material-ui/icons/School';
+import WorkIcon from '@material-ui/icons/Work';
+
+const categoryColors = {
+  chores: '#540d6e',
+  other: '#5967ff',
+  school: '#3bceac',
+  'self-care': '#ee4266',
+  social: '#ffd23f',
+  work: '#403d39'
+}
+
+function getCategoryIcon(value) {
+  if (value.category === "chores") {
+    return <DoneIcon style={{ color: categoryColors['chores'] }} />
+  } else if (value.category === "school") {
+    return <SchoolIcon style={{ color: categoryColors['school'] }} />
+  } else if (value.category === "self-care") {
+    return <FavoriteIcon style={{ color: categoryColors['self-care'] }} />
+  } else if (value.category === "social") {
+    return <GroupIcon style={{ color: categoryColors['social'] }} />
+  } else if (value.category === "work") {
+    return <WorkIcon style={{ color: categoryColors['work'] }} />
+  } else { // other
+    return <EmojiEmotionsIcon style={{ color: categoryColors['other'] }} />
+  }
+}
 
 // Each new instantiated Task increments curId by one:
 let curId = 0;
@@ -37,7 +70,7 @@ class Task {
   /**
    * Creates a Task object given the name of the task (any string) and the name
    * of its category (strings from a predetermined set: "work", "school","chores",
-   * "self-care", "hobbies", and "social").
+   * "self-care", "social", and "other").
    * 
    * @param {string} title the name of the task that appears in the list
    * @param {string} category the name of the task category
@@ -201,12 +234,11 @@ export default function FloatingActionButtonZoom(props) {
 
                 {/* Displays an avatar. Maybe we can replace this with an icon later,
                 depending on what they categorize the task as? */}
-                <ListItemAvatar>
-                  <Avatar
-                    alt={`Avatar n°${value + 1}`}
-                    src={`/static/images/avatar/${value + 1}.jpg`}
-                  />
-                </ListItemAvatar>
+                <ListItemIcon>
+                  <Icon>
+                    {getCategoryIcon(value)}
+                  </Icon>
+                </ListItemIcon>
 
                 {/* This would be a great place to display the date and time of list entry creation. 
                 It may be referenced `value.creationTime` after implementation. */}

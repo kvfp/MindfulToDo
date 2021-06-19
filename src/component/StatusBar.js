@@ -24,6 +24,15 @@ const useStylesBootstrap = makeStyles((theme) => ({
   },
 }));
 
+const categoryColors = {
+  chores: '#540d6e',
+  other: '#0ead69',
+  school: '#3bceac',
+  selfcare: '#ee4266',
+  social: '#ffd23f',
+  work: '540d6e'
+}
+
 function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
@@ -92,7 +101,7 @@ export default function StatusBar(props) {
   var WorkTotal = 0;
   var SchoolTotal = 0;
   var SelfCareTotal = 0;
-  var HobbiesTotal = 0;
+  var OtherTotal = 0;
   var SocialTotal = 0;
   var ChoresTotal = 0;
 
@@ -101,7 +110,7 @@ export default function StatusBar(props) {
     if (entry.category === "work") WorkTotal++;
     if (entry.category === "school") SchoolTotal++;
     if (entry.category === "self-care") SelfCareTotal++;
-    if (entry.category === "hobbies") HobbiesTotal++;
+    if (entry.category === "other") OtherTotal++;
     if (entry.category === "social") SocialTotal++;
     if (entry.category === "chores") ChoresTotal++;
   });
@@ -110,14 +119,14 @@ export default function StatusBar(props) {
     WorkTotal +
     SchoolTotal +
     SelfCareTotal +
-    HobbiesTotal +
+    OtherTotal +
     SocialTotal +
     ChoresTotal;
 
   var WorkDone = 0;
   var SchoolDone = 0;
   var SelfCareDone = 0;
-  var HobbiesDone = 0;
+  var OtherDone = 0;
   var SocialDone = 0;
   var ChoresDone = 0;
 
@@ -125,7 +134,7 @@ export default function StatusBar(props) {
     if (entry.done === true && entry.category === "work") WorkDone++;
     if (entry.done === true && entry.category === "school") SchoolDone++;
     if (entry.done === true && entry.category === "self-care") SelfCareDone++;
-    if (entry.done === true && entry.category === "hobbies") HobbiesDone++;
+    if (entry.done === true && entry.category === "other") OtherDone++;
     if (entry.done === true && entry.category === "social") SocialDone++;
     if (entry.done === true && entry.category === "chores") ChoresDone++;
   });
@@ -133,7 +142,7 @@ export default function StatusBar(props) {
   var WorkProgress = 0;
   var SchoolProgress = 0;
   var SelfCareProgress = 0;
-  var HobbiesProgress = 0;
+  var OtherProgress = 0;
   var SocialProgress = 0;
   var ChoresProgress = 0;
 
@@ -144,7 +153,7 @@ export default function StatusBar(props) {
   if (SelfCareTotal !== 0)
     SelfCareProgress = (SelfCareDone / SelfCareTotal) * 100;
 
-  if (HobbiesTotal !== 0) HobbiesProgress = (HobbiesDone / HobbiesTotal) * 100;
+  if (OtherTotal !== 0) OtherProgress = (OtherDone / OtherTotal) * 100;
 
   if (SocialTotal !== 0) var SocialProgress = (SocialDone / SocialTotal) * 100;
 
@@ -179,15 +188,15 @@ export default function StatusBar(props) {
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(HobbiesTotal / AllTotal) * 100}
-            />
-            <CircularProgressWithLabel
-              variant="determinate"
               value={(SocialTotal / AllTotal) * 100}
             />
             <CircularProgressWithLabel
               variant="determinate"
               value={(ChoresTotal / AllTotal) * 100}
+            />
+            <CircularProgressWithLabel
+              variant="determinate"
+              value={(OtherTotal / AllTotal) * 100}
             />
           </Grid>
         </Grid>
@@ -206,7 +215,7 @@ export default function StatusBar(props) {
   // If there are n categories we need n progress bars
   // Progress can be set by either number of items on list or if we later implement time for each item
 
-  // Basic example, four categories: Work, School, Self Care, Hobbies
+  // Basic example, four categories: Work, School, Self Care, Other
   // User must choose category when adding item
   // Progress is calculated by number of items of each category, not time
 
@@ -266,21 +275,6 @@ export default function StatusBar(props) {
           />
         </Box>
       </ProgressTooltip>
-      <ProgressTooltip
-        title={HobbiesDone + "/" + HobbiesTotal}
-        placement="left"
-      >
-        <Box m={3}>
-          <CategoryLabel variant="h6" component="h2" gutterBottom>
-            Hobbies
-          </CategoryLabel>
-          <StyledLinearProgress
-            value={HobbiesProgress}
-            variant={"buffer"}
-            valueBuffer={0}
-          />
-        </Box>
-      </ProgressTooltip>
       <ProgressTooltip title={SocialDone + "/" + SocialTotal} placement="left">
         <Box m={3}>
           <CategoryLabel variant="h6" component="h2" gutterBottom>
@@ -300,6 +294,21 @@ export default function StatusBar(props) {
           </CategoryLabel>
           <StyledLinearProgress
             value={ChoresProgress}
+            variant={"buffer"}
+            valueBuffer={0}
+          />
+        </Box>
+      </ProgressTooltip>
+      <ProgressTooltip
+        title={OtherDone + "/" + OtherTotal}
+        placement="left"
+      >
+        <Box m={3}>
+          <CategoryLabel variant="h6" component="h2" gutterBottom>
+            Other
+          </CategoryLabel>
+          <StyledLinearProgress
+            value={OtherProgress}
             variant={"buffer"}
             valueBuffer={0}
           />

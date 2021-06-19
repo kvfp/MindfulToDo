@@ -9,12 +9,7 @@ import { Button } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-import DoneIcon from '@material-ui/icons/Done';
-import EmojiEmotionsIcon from '@material-ui/icons/EmojiEmotions';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import GroupIcon from '@material-ui/icons/Group';
-import SchoolIcon from '@material-ui/icons/School';
-import WorkIcon from '@material-ui/icons/Work';
+
 
 // STYLING
 const useStyles = makeStyles((theme) => ({
@@ -37,68 +32,11 @@ const useStyles = makeStyles((theme) => ({
   selectLabel: {
   }
 }));
-////////////////////////////////////////////////////////////////////////////////
-const categoryData = {
-  "chores": function() {
-    return (
-      <ListItemAvatar>
-        <Avatar>
-          <DoneIcon/>
-        </Avatar>
-      </ListItemAvatar>
-    )
-  },
-  "hobbies": function() {
-    return (
-      <ListItemAvatar>
-        <Avatar>
-          <EmojiEmotionsIcon/>
-        </Avatar>
-      </ListItemAvatar>
-    )
-  },
-  "school": function() {
-    return (
-      <ListItemAvatar>
-        <Avatar>
-          <SchoolIcon/>
-        </Avatar>
-      </ListItemAvatar>
-    )
-  },
-  "self-care": function() {
-    return (
-      <ListItemAvatar>
-        <Avatar>
-          <FavoriteIcon/>
-        </Avatar>
-      </ListItemAvatar>
-    )
-  },
-  "social": function() {
-    return (
-      <ListItemAvatar>
-        <Avatar>
-          <GroupIcon/>
-        </Avatar>
-      </ListItemAvatar>
-    )
-  },
-  "work": function() {
-    return (
-      <ListItemAvatar>
-        <Avatar>
-          <WorkIcon/>
-        </Avatar>
-      </ListItemAvatar>
-    )
-  }
-};
 
 function CategorySelect() {
   const classes = useStyles();
 
-  // category is "chores", "hobbies", "school", "self-care", "social", or "work"
+  // category is "chores", "other", "school", "self-care", "social", or "work"
   const [category, setCategory] = React.useState("");
 
   const handleCategoryChange = (event) => {
@@ -116,11 +54,11 @@ function CategorySelect() {
         onChange={handleCategoryChange}
       >
         <MenuItem value={"chores"}>Chores</MenuItem>
-        <MenuItem value={"hobbies"}>Hobbies</MenuItem>
         <MenuItem value={"school"}>School</MenuItem>
         <MenuItem value={"self-care"}>Self-care</MenuItem>
         <MenuItem value={"Social"}>Social</MenuItem>
         <MenuItem value={"work"}>Work</MenuItem>
+        <MenuItem value={"other"}>Other</MenuItem>
       </Select>
     </FormControl>
   )
