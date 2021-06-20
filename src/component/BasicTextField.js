@@ -62,6 +62,7 @@ function ActualFields(props) {
     <form noValidate autoComplete="off">
       <Toolbar style={{ alignContent: "center" }}>
         <TextField
+          data-testid="new-item-input"
           value={currentInput}
           onChange={(e) => {
             setCurrentInput(e.target.value);
@@ -73,6 +74,7 @@ function ActualFields(props) {
         />
         <CategorySelect />
         <Button
+          data-testid="new-item-button"
           color="primary"
           aria-label="add"
           variant="contained"
