@@ -160,11 +160,12 @@ export default function MainBox(props) {
 
   // STATE
   const [value, setValue] = React.useState(0);
-  useEffect(() => {
+  var allEntries = props.listOfEntries; // We receive the list of all to-do list entries from MainGrid.js. Props are useful!
+
+  const scrollToLastEntry = () => {
     var element = document.getElementById("lastEntry");
     element.scrollIntoView();
-  });
-  var allEntries = props.listOfEntries; // We receive the list of all to-do list entries from MainGrid.js. Props are useful!
+  };
 
   // FUNCTIONS (no need to edit these ones in particular)
   const handleChange = (event, newValue) => {
@@ -410,6 +411,7 @@ export default function MainBox(props) {
               <BasicTextField
                 listOfEntries={props.listOfEntries}
                 remotelyHandleAdd={props.remotelyHandleAdd}
+                remotelyScrollToLastEntry={scrollToLastEntry}
               />
             </Paper>
           </TabPanel>
