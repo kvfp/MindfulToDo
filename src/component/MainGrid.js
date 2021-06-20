@@ -28,12 +28,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let curId = 0;
+let curId = 0; // Each new instantiated Task increments curId by one
+// Task constructor allows us to easily add new tasks to `allEntries` state
 class Task {
-  /* someone remind me to make a default value for category because I might die if I
-     have to continue using this language without every conceivable type hint. It's
-     going to be an as yet undefined object though so I still have to think about it.
-  */
   constructor(title = "Do homework", category, isDone) {
     if (category === "" || category === undefined) {
       category = "other";
@@ -42,10 +39,12 @@ class Task {
     this.title = title;
     this.category = category;
     this.id = curId;
-    curId = curId + 1;
     this.done = isDone;
+
     let newDate = new Date();
     this.date = newDate;
+
+    curId = curId + 1;
   }
 }
 
@@ -53,15 +52,12 @@ class Task {
 export default function MainGrid() {
   const classes = useStyles();
 
-  // TODO: Decide if we want to include this or not in the final version
-  // Though we don't want to force `to-do list items` on the user, I feel like our strength
-  // is having the extra feature providing insight on how we value certain categories
-  // through the number of tasks we have in each one and our progress in each category.
-  // My 2 cents: let's keep them but provide users with a handy "delete all" button?
-  const [lastAction, setLastAction] = useState("");
+  // The one source of truth for to-do list entries (passed throughout app with props)
   const [allEntries, setAllEntries] = useState([
     new Task("Add your first task", "other", false),
   ]);
+
+  const [lastAction, setLastAction] = useState("");
 
   const handleAdd = (obj) => {
     if (lastAction !== "add") setLastAction("add");
@@ -80,6 +76,7 @@ export default function MainGrid() {
   };
 
   const handleDelete = (id) => {
+    // Delete entry with matching id
     if (lastAction !== "delete") setLastAction("delete");
     setAllEntries((entries) => entries.filter((entry) => entry.id !== id));
   };
@@ -87,6 +84,8 @@ export default function MainGrid() {
   const handleToggle = (value) => () => {
     if (lastAction !== "toggle") setLastAction("toggle");
     var newState = [];
+
+    // Toggle `done` property of entry with matching id
     allEntries.forEach((_value) => {
       if (_value.id === value.id) {
         _value.done = !_value.done;
@@ -110,6 +109,7 @@ export default function MainGrid() {
     if (duplicateFound === false) {
       var newState = [];
       allEntries.forEach((_value) => {
+        // Modify category and title as needed if id matches
         if (_value.id === obj.id) {
           if (obj.category !== "") {
             _value.category = obj.category;
@@ -130,25 +130,23 @@ export default function MainGrid() {
         {/* This one's the big box that will contain our to-do list! */}
         <Grid item xs>
           <Paper className={classes.paper}>
-            {/* This component is what actually houses the to-do list
-            and manages the state of the list. */}
+            {/* This component is what actually renders each to-do list item 
+            Many functions are passed as props - perhaps there may be a better way to do this? */}
             <MainBox
+              listOfEntries={allEntries}
               remotelyHandleEdit={handleEdit}
               remotelyHandleToggle={handleToggle}
-              listOfEntries={allEntries}
               remotelyHandleAdd={handleAdd}
               remotelyHandleDelete={handleDelete}
               addedNewEntry={lastAction === "add" ? true : false}
             />
-            {/* Notice the props we passed to the `TabPanel` component.
-            We'll have to do something similar to `remotelyHandleToggle` for all other list functions! */}
           </Paper>
         </Grid>
-        {/* This is the smaller box to the side that we can use for adding more things. */}
+        {/* Smaller box on the right, set aside for additional features */}
         <Grid item xs={3}>
           <Paper className={classes.paper}>
             <StatusBar listOfEntries={allEntries} />
-            {/* We need the list of entries inside StatusBar too, so we're passing it as props. */}
+            {/* We need the list of entries inside StatusBar too, so we're passing it as props */}
           </Paper>
         </Grid>
       </Grid>

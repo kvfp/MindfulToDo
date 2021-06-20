@@ -5,14 +5,12 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { Tooltip } from "@material-ui/core";
 import { CircularProgress } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import { CategoryColors } from "../style/colors";
 
 // STYLING
-// TODO: We need to change the colors of each of the bars that represent a different category.
-// Color-coding may help a ton with better understanding the data! However, if these are color-coded,
-// it must match with the icon colors to be implemented in the individiual to-do list entries
+
+// Allow the tooltips to look a little different from default
 const useStylesBootstrap = makeStyles((theme) => ({
   arrow: {
     color: "#00bcd4",
@@ -25,6 +23,8 @@ const useStylesBootstrap = makeStyles((theme) => ({
   },
 }));
 
+// Generate circular progress components for each category
+// Color coding is implemented using the `color.js` file
 function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
@@ -61,6 +61,8 @@ function ProgressTooltip(props) {
 
 var StyledLinearProgressBars = {};
 
+// Generate linear progress components for each category
+// Color coding is also implemented using the `color.js` file
 for (let color in CategoryColors) {
   let colorName = color.charAt(0).toUpperCase() + color.slice(1);
   StyledLinearProgressBars[colorName] = withStyles({
@@ -170,8 +172,7 @@ export default function StatusBar(props) {
         >
           Category Distribution
         </Typography>
-        {/* TODO: This br makes me feel uncomfortable, but for some reason adding margins to the grid did not work.
-        Any thoughts on possible alternatives? */}
+
         <br />
         <Grid container spacing={3} backgroundColor="blue">
           <Grid item xs={0}></Grid>
@@ -209,26 +210,10 @@ export default function StatusBar(props) {
           </Grid>
         </Grid>
         <br />
-        <Paper variant={"elevation"} square={true} elevation={5} margin={0}>
-          {/* TODO: we can change this text based on how balanced the distribution of the user's tasks are 
-          ex: if they focus on one category alone for 80% of their tasks, we can say something like
-          "There is definite room for improvement!" */}
-          {/* <Typography variant="h6">Balance is key!</Typography> */}
-        </Paper>
       </>
     );
   }
 
-  // Think about how MainGrid.js will be keeping track of progress
-  // If there are n categories we need n progress bars
-  // Progress can be set by either number of items on list or if we later implement time for each item
-
-  // Basic example, four categories: Work, School, Self Care, Other
-  // User must choose category when adding item
-  // Progress is calculated by number of items of each category, not time
-
-  // TODO: We can potentially automate the creation of these sections for each category.
-  // Though this works fine as is, it would look a lot cleaner if we made a generator of some sort
   return (
     <div>
       <Typography

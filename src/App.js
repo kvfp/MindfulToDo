@@ -6,14 +6,14 @@ import "./App.css";
 function App() {
   return (
     <div className="App">
-      {/* This is the horizontal bar on top with the text/icons. */}
+      {/* This is the horizontal bar on top with the text */}
       <TopBar />
 
-      {/* The header is currently empty, 
-      but we can add text inside it or something else if we want! */}
+      {/* The header is currently empty */}
       <Header />
 
-      {/* This houses the grid boxes on the screen. */}
+      {/* This houses everything else on the screen:
+      MainBox, StatusBar, BasicTextField */}
       <MainGrid />
     </div>
   );

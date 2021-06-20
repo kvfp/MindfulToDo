@@ -44,6 +44,7 @@ import { TextField } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import { Select } from "@material-ui/core";
 
+// Returns appropriate icon based on list item category
 function getCategoryIcon(value) {
   if (value.category === "chores") {
     return (
@@ -63,7 +64,7 @@ function getCategoryIcon(value) {
   }
 }
 
-// This overrides the default MUI theme colors.
+// This overrides the default MUI theme colors
 const customTheme = createMuiTheme({
   palette: {
     primary: {
@@ -139,6 +140,12 @@ export default function MainBox(props) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editId, setEditId] = useState(0);
 
+  // Upon re-render, check if it is necessary to scroll to last list entry
+  useEffect(() => {
+    if (props.addedNewEntry === true) scrollToLastEntry();
+  });
+
+  // State was not used for this to prevent re-rendering when user edits text
   var editCategory = "";
   var editTitle = "";
 
@@ -150,7 +157,8 @@ export default function MainBox(props) {
   const dialogHandleClose = () => {
     setDialogOpen(false);
   };
-  var allEntries = props.listOfEntries; // We receive the list of all to-do list entries from MainGrid.js. Props are useful!
+
+  var allEntries = props.listOfEntries; // We receive the list of all to-do list entries from MainGrid.js
 
   const scrollToLastEntry = () => {
     var element = document.getElementById("lastEntry");
@@ -158,11 +166,6 @@ export default function MainBox(props) {
     element.scrollIntoView();
   };
 
-  useEffect(() => {
-    if (props.addedNewEntry === true) scrollToLastEntry();
-  });
-
-  // FUNCTIONS (no need to edit these ones in particular)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -225,6 +228,7 @@ export default function MainBox(props) {
             label="Task Name"
             fullWidth
           />
+          {/* Same category selection as inside `BasicTextField` */}
           <FormControl>
             <InputLabel>Category</InputLabel>
             <Select
@@ -252,6 +256,7 @@ export default function MainBox(props) {
               if (editCategory === undefined) editCategory = "";
               if (editTitle === undefined) editTitle = "";
 
+              // Only attempt to update state if user modified any fields
               if (editCategory !== "" || editTitle !== "") {
                 props.remotelyHandleEdit({
                   title: editTitle,
@@ -270,7 +275,7 @@ export default function MainBox(props) {
     );
   };
 
-  const CheckboxListSecondary = () => {
+  const RenderListComponents = () => {
     var entryCount = 0;
 
     return (
@@ -403,7 +408,7 @@ export default function MainBox(props) {
                 padding: 0,
               }}
             >
-              {CheckboxListSecondary()}
+              {RenderListComponents()}
             </Paper>
             <Paper
               elevation={5}

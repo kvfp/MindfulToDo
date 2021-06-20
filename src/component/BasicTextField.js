@@ -26,12 +26,14 @@ function ActualFields(props) {
   const [category, setCategory] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
+  // Used for displaying snacks - give user feedback on their actions
   const handleClickVariant = (msg, variant) => {
     let autoHideDuration = 2000;
     if (variant === "info") autoHideDuration = 3000;
     enqueueSnackbar(msg, { variant, autoHideDuration });
   };
 
+  // Select component
   const CategorySelect = () => {
     const classes = useStyles();
 
