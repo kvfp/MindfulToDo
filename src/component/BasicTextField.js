@@ -27,7 +27,9 @@ function ActualFields(props) {
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClickVariant = (msg, variant) => {
-    enqueueSnackbar(msg, { variant });
+    let autoHideDuration = 2000;
+    if (variant == "info") autoHideDuration = 3000;
+    enqueueSnackbar(msg, { variant, autoHideDuration });
   };
 
   const CategorySelect = () => {
