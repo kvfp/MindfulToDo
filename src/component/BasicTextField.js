@@ -128,7 +128,6 @@ export default function BasicTextFields(props) {
 
                   // TODO: Alert the user if no category was selected; suggest they choose one next time
                   if (isADuplicate === false) {
-                    props.remotelyScrollToLastEntry();
                     props.remotelyHandleAdd({
                       title: currentInput,
                       category: category,

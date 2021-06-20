@@ -25,13 +25,13 @@ const useStylesBootstrap = makeStyles((theme) => ({
 }));
 
 const categoryColors = {
-  chores: '#540d6e',
-  other: '#0ead69',
-  school: '#3bceac',
-  selfcare: '#ee4266',
-  social: '#ffd23f',
-  work: '540d6e'
-}
+  chores: "#540d6e",
+  other: "#0ead69",
+  school: "#3bceac",
+  selfcare: "#ee4266",
+  social: "#ffd23f",
+  work: "#540d6e",
+};
 
 function CircularProgressWithLabel(props) {
   return (
@@ -159,6 +159,12 @@ export default function StatusBar(props) {
 
   if (ChoresTotal !== 0) var ChoresProgress = (ChoresDone / ChoresTotal) * 100;
 
+  const getDistributionPercentage = (base) => {
+    if (AllTotal === 0) return 0;
+    let percentage = (base / AllTotal) * 100;
+    return percentage;
+  };
+
   // This uses circular progress components to make it easier for users to
   // see which categories they tend to focus on the most (theoretically)
   // *note that this section does not take into account completion statuses
@@ -176,27 +182,27 @@ export default function StatusBar(props) {
           <Grid item xs={0}>
             <CircularProgressWithLabel
               variant="determinate"
-              value={(WorkTotal / AllTotal) * 100}
+              value={getDistributionPercentage(WorkTotal)}
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(SchoolTotal / AllTotal) * 100}
+              value={getDistributionPercentage(SchoolTotal)}
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(SelfCareTotal / AllTotal) * 100}
+              value={getDistributionPercentage(SelfCareTotal)}
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(SocialTotal / AllTotal) * 100}
+              value={getDistributionPercentage(SocialTotal)}
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(ChoresTotal / AllTotal) * 100}
+              value={getDistributionPercentage(ChoresTotal)}
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(OtherTotal / AllTotal) * 100}
+              value={getDistributionPercentage(OtherTotal)}
             />
           </Grid>
         </Grid>
@@ -299,10 +305,7 @@ export default function StatusBar(props) {
           />
         </Box>
       </ProgressTooltip>
-      <ProgressTooltip
-        title={OtherDone + "/" + OtherTotal}
-        placement="left"
-      >
+      <ProgressTooltip title={OtherDone + "/" + OtherTotal} placement="left">
         <Box m={3}>
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Other

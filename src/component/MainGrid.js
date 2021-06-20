@@ -59,6 +59,7 @@ export default function MainGrid() {
   // is having the extra feature providing insight on how we value certain categories
   // through the number of tasks we have in each one and our progress in each category.
   // My 2 cents: let's keep them but provide users with a handy "delete all" button?
+  const [lastAction, setLastAction] = useState("");
   const [allEntries, setAllEntries] = useState([
     new Task("Do homework", "school", true),
     new Task("Eat dinner", "self-care", true),
@@ -76,6 +77,7 @@ export default function MainGrid() {
 
   const handleAdd = (obj) => {
     console.log("I got it!");
+    if (lastAction !== "add") setLastAction("add");
     var newState = [];
 
     // Copy old entries over
@@ -91,10 +93,12 @@ export default function MainGrid() {
   };
 
   const handleDelete = (id) => {
+    if (lastAction !== "delete") setLastAction("delete");
     setAllEntries((entries) => entries.filter((entry) => entry.id !== id));
   };
 
   const handleToggle = (value) => () => {
+    if (lastAction !== "toggle") setLastAction("toggle");
     var newState = [];
     allEntries.map((_value) => {
       if (_value.id === value.id) {
@@ -120,6 +124,7 @@ export default function MainGrid() {
               listOfEntries={allEntries}
               remotelyHandleAdd={handleAdd}
               remotelyHandleDelete={handleDelete}
+              addedNewEntry={lastAction === "add" ? true : false}
             />
             {/* Notice the props we passed to the `TabPanel` component.
             We'll have to do something similar to `remotelyHandleToggle` for all other list functions! */}

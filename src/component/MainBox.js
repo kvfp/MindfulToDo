@@ -168,6 +168,12 @@ export default function MainBox(props) {
     element.scrollIntoView();
   };
 
+  useEffect(() => {
+    console.log("addedNewEntry");
+    console.log(props.addedNewEntry);
+    if (props.addedNewEntry === true) scrollToLastEntry();
+  });
+
   // FUNCTIONS (no need to edit these ones in particular)
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -412,7 +418,6 @@ export default function MainBox(props) {
               <BasicTextField
                 listOfEntries={props.listOfEntries}
                 remotelyHandleAdd={props.remotelyHandleAdd}
-                remotelyScrollToLastEntry={scrollToLastEntry}
               />
             </Paper>
           </TabPanel>
