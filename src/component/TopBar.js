@@ -5,6 +5,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import "@fontsource/roboto";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { pink, cyan } from "@material-ui/core/colors";
+import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
+import { Typography } from "@material-ui/core";
 
 // This overrides the default MUI theme colors.
 const customTheme = createMuiTheme({
@@ -45,15 +47,14 @@ export default function TopBar() {
         <AppBar position="static" color="primary">
           <Toolbar>
             {/* Smiley face icon */}
-            {/* <EmojiEmotionsIcon
+            <EmojiEmotionsIcon
               edge="start"
               className={classes.menuButton}
               aria-label="open drawer"
               size="large"
-            /> */}
-
+            />
             {/* This is the title that appears on the bar. */}
-            {/* <Typography
+            <Typography
               className={classes.title}
               variant="h4"
               noWrap
@@ -65,7 +66,7 @@ export default function TopBar() {
               }}
             >
               WYD?
-            </Typography> */}
+            </Typography>
           </Toolbar>
         </AppBar>
       </div>

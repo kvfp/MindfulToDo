@@ -379,7 +379,7 @@ export default function MainBox(props) {
                 fontWeight: "bold",
                 fontSize: "3rem",
               }}
-              label="NOW"
+              label="TO-DO LIST"
               {...a11yProps(0)}
             ></Tab>
           </Tabs>

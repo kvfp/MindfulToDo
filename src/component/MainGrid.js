@@ -60,18 +60,7 @@ export default function MainGrid() {
   // My 2 cents: let's keep them but provide users with a handy "delete all" button?
   const [lastAction, setLastAction] = useState("");
   const [allEntries, setAllEntries] = useState([
-    new Task("Do homework", "school", true),
-    new Task("Eat dinner", "self-care", true),
-    new Task("Spend time with family", "social", false),
-    new Task("Watch a movie", "other", true),
-    new Task("Listen to music", "other", false),
-    new Task("Do the dishes", "chores", false),
-    new Task("Cook breakfast", "chores", true),
-    new Task("Go to work", "work", true),
-    new Task("Sleep in", "self-care", true),
-    new Task("Go for a walk", "self-care", false),
-    new Task("Have lunch with friends", "social", false),
-    new Task("Review for exam", "school", false),
+    new Task("Add your first task", "other", false),
   ]);
 
   const handleAdd = (obj) => {
