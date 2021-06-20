@@ -18,14 +18,6 @@ import AddIcon from "@material-ui/icons/Add";
 
 // STYLING
 const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "40ch",
-      textAlign: "left",
-      justifyContent: "left",
-    },
-  },
   extendedIcon: {
     marginRight: theme.spacing(1),
   },
@@ -62,15 +54,15 @@ export default function BasicTextFields(props) {
         <InputLabel>Category</InputLabel>
         <Select
           className={classes.selectLabel}
-          variant="outlined"
+          style={{ width: "10rem" }}
           id="category-selection"
-          value={category}
+          value={category.toLowerCase()}
           onChange={handleCategoryChange}
         >
           <MenuItem value={"chores"}>Chores</MenuItem>
           <MenuItem value={"school"}>School</MenuItem>
           <MenuItem value={"self-care"}>Self-care</MenuItem>
-          <MenuItem value={"Social"}>Social</MenuItem>
+          <MenuItem value={"social"}>Social</MenuItem>
           <MenuItem value={"work"}>Work</MenuItem>
           <MenuItem value={"other"}>Other</MenuItem>
         </Select>
@@ -79,67 +71,50 @@ export default function BasicTextFields(props) {
   };
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
-      <Toolbar style={{ width: "100%" }}>
-        <Grid container spacing={5}>
-          <Grid item>
-            <TextField
-              value={currentInput}
-              onChange={(e) => {
-                setCurrentInput(e.target.value);
-                console.log(currentInput);
-              }}
-              id="standard-basic"
-              label="I need to..."
-              color="secondary"
-              inputProps={{
-                style: {
-                  textAlign: "left",
-                  verticalAlign: "center",
-                  width: "36rem",
-                },
-              }}
-            />
-          </Grid>
-          <Grid item>
-            <CategorySelect />
-          </Grid>
-          <Grid item>
-            <div className={classes.fabRoot}>
-              <Fab
-                color="primary"
-                aria-label="add"
-                variant="extended"
-                onClick={() => {
-                  // TODO: Alert user if the input was not accepted for some reason
+    <form noValidate autoComplete="off">
+      <Toolbar style={{ alignContent: "center" }}>
+        <TextField
+          value={currentInput}
+          onChange={(e) => {
+            setCurrentInput(e.target.value);
+            console.log(currentInput);
+          }}
+          id="standard-basic"
+          label="I need to..."
+          color="secondary"
+          style={{ width: "40rem" }}
+        />
+        <CategorySelect />
+        <Button
+          color="primary"
+          aria-label="add"
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => {
+            // TODO: Alert user if the input was not accepted for some reason
 
-                  setCurrentInput("");
-                  let isADuplicate = false;
-                  if (currentInput === "") return;
-                  props.listOfEntries.map((obj) => {
-                    if (
-                      obj.title.toLowerCase() === currentInput.toLowerCase()
-                    ) {
-                      isADuplicate = true;
-                      console.log("duplicate found!");
-                      return;
-                    }
-                  });
+            setCurrentInput("");
+            let isADuplicate = false;
+            if (currentInput === "") return;
+            props.listOfEntries.map((obj) => {
+              if (obj.title.toLowerCase() === currentInput.toLowerCase()) {
+                isADuplicate = true;
+                console.log("duplicate found!");
+                return;
+              }
+            });
 
-                  // TODO: Alert the user if no category was selected; suggest they choose one next time
-                  if (isADuplicate === false) {
-                    props.remotelyHandleAdd({
-                      title: currentInput,
-                      category: category,
-                    });
-                  }
-                }}
-              >
-                <AddIcon />
-              </Fab>
-            </div>
-          </Grid>
-        </Grid>
+            // TODO: Alert the user if no category was selected; suggest they choose one next time
+            if (isADuplicate === false) {
+              props.remotelyHandleAdd({
+                title: currentInput,
+                category: category,
+              });
+            }
+          }}
+        >
+          ADD
+        </Button>
       </Toolbar>
     </form>
   );
