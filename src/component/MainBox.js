@@ -38,6 +38,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import GroupIcon from "@material-ui/icons/Group";
 import SchoolIcon from "@material-ui/icons/School";
 import WorkIcon from "@material-ui/icons/Work";
+import { getByDisplayValue } from "@testing-library/react";
 
 const categoryColors = {
   chores: "#540d6e",
@@ -199,10 +200,45 @@ export default function MainBox(props) {
     },
   ];
 
+  const formatDate = (date) => {
+    let period = "AM";
+    let hour = date.getHours();
+    if (hour == 12) {
+      period = "PM";
+    } else if (hour > 12) {
+      hour = hour - 12;
+      period = "PM";
+    }
+
+    let minute = date.getMinutes();
+    if (minute < 10) {
+      minute = "0" + minute;
+    }
+
+    return (
+      date.getMonth() +
+      "/" +
+      date.getDay() +
+      "/" +
+      date.getYear().toString().substring(1) +
+      " " +
+      hour +
+      ":" +
+      minute +
+      " " +
+      period
+    );
+  };
+
   const CheckboxListSecondary = () => {
     return (
-      <Paper style={{ width: "100%", maxHeight: "25rem", overflow: "auto" }}>
-        <List dense className={classes.root}>
+      <Paper>
+        <List
+          MenuProps={{ autoFocus: false }}
+          dense
+          className={classes.root}
+          style={{ width: "100%", maxHeight: "20rem", overflowY: "auto" }}
+        >
           {allEntries.map((value) => {
             const labelId = `checkbox-list-secondary-label-${value.id}`;
 
@@ -242,7 +278,7 @@ export default function MainBox(props) {
                 {/* This would be a great place to display the date and time of list entry creation. 
                 It may be referenced `value.creationTime` after implementation. */}
                 <Chip
-                  label="6/17/21 1:29 AM"
+                  label={formatDate(value.date)}
                   color="secondary"
                   style={{ marginRight: "1rem", width: "auto" }}
                 />
@@ -360,7 +396,10 @@ export default function MainBox(props) {
                 marginLeft: "0rem",
               }}
             >
-              <BasicTextField />
+              <BasicTextField
+                listOfEntries={props.listOfEntries}
+                remotelyHandleAdd={props.remotelyHandleAdd}
+              />
             </Paper>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>

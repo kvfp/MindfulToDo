@@ -37,47 +37,46 @@ const useStyles = makeStyles((theme) => ({
   selectLabel: {},
 }));
 
-function CategorySelect() {
-  const classes = useStyles();
-
-  // category is "chores", "other", "school", "self-care", "social", or "work"
-  const [category, setCategory] = React.useState("");
-
-  const handleCategoryChange = (event) => {
-    setCategory(event.target.value);
-  };
-
-  return (
-    <FormControl className={classes.catSelect}>
-      <InputLabel>Category</InputLabel>
-      <Select
-        className={classes.selectLabel}
-        variant="outlined"
-        id="category-selection"
-        value={category}
-        onChange={handleCategoryChange}
-      >
-        <MenuItem value={"chores"}>Chores</MenuItem>
-        <MenuItem value={"school"}>School</MenuItem>
-        <MenuItem value={"self-care"}>Self-care</MenuItem>
-        <MenuItem value={"Social"}>Social</MenuItem>
-        <MenuItem value={"work"}>Work</MenuItem>
-        <MenuItem value={"other"}>Other</MenuItem>
-      </Select>
-    </FormControl>
-  );
-}
 // EXPORT
-export default function BasicTextFields() {
+export default function BasicTextFields(props) {
   const classes = useStyles();
 
   const [currentInput, setCurrentInput] = useState("");
+  const [category, setCategory] = React.useState("");
 
   // ***For Lauren***
   // Just a basic text field and add button to get you started. Feel free to style it as you'd like!
   // List state is stored inside of MainGrid.js, so you'll need to make your DeleteFunction there
   // Because the file structure is MainGrid.js > TabPanel.js > BasicTextField, you'll need to pass
   // the function as a prop down more than once!
+
+  const CategorySelect = () => {
+    const classes = useStyles();
+
+    const handleCategoryChange = (event) => {
+      setCategory(event.target.value);
+    };
+
+    return (
+      <FormControl className={classes.catSelect}>
+        <InputLabel>Category</InputLabel>
+        <Select
+          className={classes.selectLabel}
+          variant="outlined"
+          id="category-selection"
+          value={category}
+          onChange={handleCategoryChange}
+        >
+          <MenuItem value={"chores"}>Chores</MenuItem>
+          <MenuItem value={"school"}>School</MenuItem>
+          <MenuItem value={"self-care"}>Self-care</MenuItem>
+          <MenuItem value={"Social"}>Social</MenuItem>
+          <MenuItem value={"work"}>Work</MenuItem>
+          <MenuItem value={"other"}>Other</MenuItem>
+        </Select>
+      </FormControl>
+    );
+  };
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
@@ -87,6 +86,7 @@ export default function BasicTextFields() {
             <TextField
               onChange={(e) => {
                 setCurrentInput(e.target.value);
+                console.log(currentInput);
               }}
               id="standard-basic"
               label="I need to..."
@@ -105,12 +105,31 @@ export default function BasicTextFields() {
           </Grid>
           <Grid item>
             <div className={classes.fabRoot}>
-              <Fab color="primary" aria-label="add" variant="extended">
-                <AddIcon
-                  onClick={() => {
-                    alert("Ability to add entry is not yet functional");
-                  }}
-                />
+              <Fab
+                color="primary"
+                aria-label="add"
+                variant="extended"
+                onClick={() => {
+                  let isADuplicate = false;
+                  if (currentInput === "") return;
+                  props.listOfEntries.map((obj) => {
+                    if (
+                      obj.title.toLowerCase() === currentInput.toLowerCase()
+                    ) {
+                      isADuplicate = true;
+                      console.log("duplicate found!");
+                      return;
+                    }
+                  });
+                  if (isADuplicate === false) {
+                    props.remotelyHandleAdd({
+                      title: currentInput,
+                      category: category,
+                    });
+                  }
+                }}
+              >
+                <AddIcon />
               </Fab>
             </div>
           </Grid>
