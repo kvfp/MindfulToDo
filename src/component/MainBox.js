@@ -181,15 +181,18 @@ export default function MainBox(props) {
       period = "PM";
     }
 
+    let month = date.getMonth() + 1;
+    let dayOfMonth = date.getDate();
+
     let minute = date.getMinutes();
     if (minute < 10) {
       minute = "0" + minute;
     }
 
     return (
-      date.getMonth() +
+      month +
       "/" +
-      date.getDay() +
+      dayOfMonth +
       "/" +
       date.getYear().toString().substring(1) +
       " " +
