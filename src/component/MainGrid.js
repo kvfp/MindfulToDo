@@ -90,6 +90,10 @@ export default function MainGrid() {
     setAllEntries(newState);
   };
 
+  const handleDelete = (id) => {
+    setAllEntries((entries) => entries.filter((entry) => entry.id !== id));
+  };
+
   const handleToggle = (value) => () => {
     var newState = [];
     allEntries.map((_value) => {
@@ -115,6 +119,7 @@ export default function MainGrid() {
               remotelyHandleToggle={handleToggle}
               listOfEntries={allEntries}
               remotelyHandleAdd={handleAdd}
+              remotelyHandleDelete={handleDelete}
             />
             {/* Notice the props we passed to the `TabPanel` component.
             We'll have to do something similar to `remotelyHandleToggle` for all other list functions! */}

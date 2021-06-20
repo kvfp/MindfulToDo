@@ -164,6 +164,7 @@ export default function MainBox(props) {
 
   const scrollToLastEntry = () => {
     var element = document.getElementById("lastEntry");
+    if (element == undefined) return;
     element.scrollIntoView();
   };
 
@@ -275,7 +276,7 @@ export default function MainBox(props) {
                     // It should be fairly convenient to use `value` and `allEntries`
                     // You will need to make a DeleteEntry function though inside MainGrid.js,
                     // pass it down as a prop, and call it here! Feel free to edit the style of the icon button, etc.
-                    alert("Ability to delete is not yet functional");
+                    props.remotelyHandleDelete(value.id);
                   }}
                 >
                   <DeleteIcon />
