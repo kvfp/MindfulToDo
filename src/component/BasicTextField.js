@@ -15,6 +15,7 @@ import { Button } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 // STYLING
 const useStyles = makeStyles((theme) => ({
@@ -30,17 +31,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // EXPORT
-export default function BasicTextFields(props) {
+function ActualFields(props) {
   const classes = useStyles();
 
   const [currentInput, setCurrentInput] = useState("");
   const [category, setCategory] = React.useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
-  // ***For Lauren***
-  // Just a basic text field and add button to get you started. Feel free to style it as you'd like!
-  // List state is stored inside of MainGrid.js, so you'll need to make your DeleteFunction there
-  // Because the file structure is MainGrid.js > TabPanel.js > BasicTextField, you'll need to pass
-  // the function as a prop down more than once!
+  const handleClick = (msg) => {
+    enqueueSnackbar(msg);
+  };
+
+  const handleClickVariant = (msg, variant) => {
+    // variant could be success, error, warning, info, or default
+    enqueueSnackbar(msg, { variant });
+  };
 
   const CategorySelect = () => {
     const classes = useStyles();
@@ -96,17 +101,39 @@ export default function BasicTextFields(props) {
 
             setCurrentInput("");
             let isADuplicate = false;
-            if (currentInput === "") return;
+            if (currentInput === "") {
+              handleClickVariant(
+                "Input may not be empty. Please name your task.",
+                "error"
+              );
+              return;
+            }
             props.listOfEntries.map((obj) => {
               if (obj.title.toLowerCase() === currentInput.toLowerCase()) {
                 isADuplicate = true;
-                console.log("duplicate found!");
+                handleClickVariant("Duplicate items are not allowed.", "error");
                 return;
               }
             });
 
             // TODO: Alert the user if no category was selected; suggest they choose one next time
             if (isADuplicate === false) {
+              if (category !== undefined && category !== "") {
+                handleClickVariant(
+                  "'" + currentInput + "' was successfully added to your list!",
+                  "success"
+                );
+              } else {
+                handleClickVariant(
+                  "We suggest adding a category next time so we can provide you with greater insight.",
+                  "info"
+                );
+                handleClickVariant(
+                  "'" + currentInput + "' was successfully added to your list!",
+                  "success"
+                );
+              }
+
               props.remotelyHandleAdd({
                 title: currentInput,
                 category: category,
@@ -118,5 +145,16 @@ export default function BasicTextFields(props) {
         </Button>
       </Toolbar>
     </form>
+  );
+}
+
+export default function BasicTextField(props) {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <ActualFields
+        remotelyHandleAdd={props.remotelyHandleAdd}
+        listOfEntries={props.listOfEntries}
+      />
+    </SnackbarProvider>
   );
 }

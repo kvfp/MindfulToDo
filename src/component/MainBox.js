@@ -41,7 +41,6 @@ import { CategoryColors } from "../style/colors";
 import HelpIcon from "@material-ui/icons/Help";
 import { InputLabel } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
 import {
   Dialog,
   DialogTitle,
@@ -52,10 +51,6 @@ import {
 import { TextField } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import { Select } from "@material-ui/core";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 function getCategoryIcon(value) {
   if (value.category === "chores") {
