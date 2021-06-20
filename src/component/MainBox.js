@@ -17,7 +17,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { indigo, orange, pink, cyan } from "@material-ui/core/colors";
 import Paper from "@material-ui/core/Paper";
 import { fontWeight } from "@material-ui/system";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
@@ -160,6 +160,10 @@ export default function MainBox(props) {
 
   // STATE
   const [value, setValue] = React.useState(0);
+  useEffect(() => {
+    var element = document.getElementById("lastEntry");
+    element.scrollIntoView();
+  });
   var allEntries = props.listOfEntries; // We receive the list of all to-do list entries from MainGrid.js. Props are useful!
 
   // FUNCTIONS (no need to edit these ones in particular)
@@ -231,6 +235,8 @@ export default function MainBox(props) {
   };
 
   const CheckboxListSecondary = () => {
+    var entryCount = 0;
+
     return (
       <Paper>
         <List
@@ -241,10 +247,15 @@ export default function MainBox(props) {
         >
           {allEntries.map((value) => {
             const labelId = `checkbox-list-secondary-label-${value.id}`;
-
+            let isLast = false;
+            entryCount += 1;
+            if (entryCount == allEntries.length) {
+              isLast = true;
+            }
             // This dictates what appears in each list entry!
             return (
               <ListItem
+                id={isLast === true ? "lastEntry" : "entry" + entryCount}
                 className={classes.listItem}
                 key={value.id}
                 disabled={false}
