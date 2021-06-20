@@ -76,7 +76,6 @@ export default function MainGrid() {
   ]);
 
   const handleAdd = (obj) => {
-    console.log("I got it!");
     if (lastAction !== "add") setLastAction("add");
     var newState = [];
 
@@ -109,7 +108,33 @@ export default function MainGrid() {
     setAllEntries(newState);
   };
 
-  // const remotelyS
+  const handleEdit = (obj) => {
+    if (lastAction !== "edit") setLastAction("edit");
+    var duplicateFound = false;
+
+    // Still enforce the `no duplicate entries` rule here
+    allEntries.forEach((_value) => {
+      if (_value.title.toLowerCase() == obj.title.toLowerCase()) {
+        duplicateFound = true;
+      }
+    });
+
+    if (duplicateFound === false) {
+      var newState = [];
+      allEntries.map((_value) => {
+        if (_value.id === obj.id) {
+          if (obj.category !== "") {
+            _value.category = obj.category;
+          }
+          if (obj.title !== "") {
+            _value.title = obj.title;
+          }
+        }
+        newState.push(_value);
+      });
+      setAllEntries(newState);
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -120,6 +145,7 @@ export default function MainGrid() {
             {/* This component is what actually houses the to-do list
             and manages the state of the list. */}
             <MainBox
+              remotelyHandleEdit={handleEdit}
               remotelyHandleToggle={handleToggle}
               listOfEntries={allEntries}
               remotelyHandleAdd={handleAdd}
