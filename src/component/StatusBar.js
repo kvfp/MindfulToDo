@@ -7,6 +7,7 @@ import { Tooltip } from "@material-ui/core";
 import { CircularProgress } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
+import { CategoryColors } from "../style/colors";
 
 // STYLING
 // TODO: We need to change the colors of each of the bars that represent a different category.
@@ -24,22 +25,13 @@ const useStylesBootstrap = makeStyles((theme) => ({
   },
 }));
 
-const categoryColors = {
-  chores: "#540d6e",
-  other: "#0ead69",
-  school: "#3bceac",
-  selfcare: "#ee4266",
-  social: "#ffd23f",
-  work: "#540d6e",
-};
-
 function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
       <CircularProgress
         variant="determinate"
         {...props}
-        style={{ color: "#e91e63" }}
+        style={{ color: CategoryColors[props.category] }}
       />
       <Box
         top={0}
@@ -66,11 +58,29 @@ function ProgressTooltip(props) {
   return <Tooltip arrow classes={classes} {...props} />;
 }
 
+var StyledLinearProgressBars = {};
+
+for (let color in CategoryColors) {
+  StyledLinearProgressBars[color] = withStyles({
+    root: {
+      "& .MuiLinearProgress-colorPrimary": {
+        backgroundColor: CategoryColors[color],
+      },
+      "& .MuiLinearProgress-barColorPrimary": {
+        backgroundColor: CategoryColors[color],
+      },
+      "& .MuiLinearProgress-dashedColorPrimary": {
+        backgroundImage: "radial-gradient(#fff 5%, transparent 30%)",
+      },
+    },
+    bar: {
+      borderWidth: "20px",
+    },
+  })(LinearProgress);
+}
+
 const StyledLinearProgress = withStyles({
   root: {
-    "&.MuiLinearProgress-colorPrimary:not(.MuiLinearProgress-buffer)": {
-      backgroundColor: "#e91e63",
-    },
     "& .MuiLinearProgress-colorPrimary": {
       backgroundColor: "#e91e63",
     },
@@ -183,26 +193,32 @@ export default function StatusBar(props) {
             <CircularProgressWithLabel
               variant="determinate"
               value={getDistributionPercentage(WorkTotal)}
+              category="work"
             />
             <CircularProgressWithLabel
               variant="determinate"
               value={getDistributionPercentage(SchoolTotal)}
+              category="school"
             />
             <CircularProgressWithLabel
               variant="determinate"
               value={getDistributionPercentage(SelfCareTotal)}
+              category="self-care"
             />
             <CircularProgressWithLabel
               variant="determinate"
               value={getDistributionPercentage(SocialTotal)}
+              category="social"
             />
             <CircularProgressWithLabel
               variant="determinate"
               value={getDistributionPercentage(ChoresTotal)}
+              category="chores"
             />
             <CircularProgressWithLabel
               variant="determinate"
               value={getDistributionPercentage(OtherTotal)}
+              category="other"
             />
           </Grid>
         </Grid>
@@ -237,7 +253,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Work
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.work
             value={WorkProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -254,7 +270,7 @@ export default function StatusBar(props) {
           >
             School
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.school
             value={SchoolProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -274,7 +290,7 @@ export default function StatusBar(props) {
           >
             Self Care
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.selfcare
             value={SelfCareProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -286,7 +302,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Social
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.social
             value={SocialProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -298,7 +314,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Chores
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.chores
             value={ChoresProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -310,7 +326,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Other
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.other
             value={OtherProgress}
             variant={"buffer"}
             valueBuffer={0}

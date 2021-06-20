@@ -39,30 +39,22 @@ import GroupIcon from "@material-ui/icons/Group";
 import SchoolIcon from "@material-ui/icons/School";
 import WorkIcon from "@material-ui/icons/Work";
 import { getByDisplayValue } from "@testing-library/react";
-
-const categoryColors = {
-  chores: "#540d6e",
-  other: "#5967ff",
-  school: "#3bceac",
-  "self-care": "#ee4266",
-  social: "#ffd23f",
-  work: "#403d39",
-};
+import { CategoryColors } from "../style/colors";
 
 function getCategoryIcon(value) {
   if (value.category === "chores") {
-    return <DoneIcon style={{ color: categoryColors["chores"] }} />;
+    return <DoneIcon style={{ color: CategoryColors["chores"] }} />;
   } else if (value.category === "school") {
-    return <SchoolIcon style={{ color: categoryColors["school"] }} />;
+    return <SchoolIcon style={{ color: CategoryColors["school"] }} />;
   } else if (value.category === "self-care") {
-    return <FavoriteIcon style={{ color: categoryColors["self-care"] }} />;
+    return <FavoriteIcon style={{ color: CategoryColors["self-care"] }} />;
   } else if (value.category === "social") {
-    return <GroupIcon style={{ color: categoryColors["social"] }} />;
+    return <GroupIcon style={{ color: CategoryColors["social"] }} />;
   } else if (value.category === "work") {
-    return <WorkIcon style={{ color: categoryColors["work"] }} />;
+    return <WorkIcon style={{ color: CategoryColors["work"] }} />;
   } else {
     // other
-    return <EmojiEmotionsIcon style={{ color: categoryColors["other"] }} />;
+    return <EmojiEmotionsIcon style={{ color: CategoryColors["other"] }} />;
   }
 }
 
@@ -299,7 +291,10 @@ export default function MainBox(props) {
                 <Chip
                   label={formatDate(value.date)}
                   color="secondary"
-                  style={{ marginRight: "1rem", width: "auto" }}
+                  style={{
+                    marginRight: "1rem",
+                    width: "auto",
+                  }}
                 />
 
                 {/* Displays name (title) of task. */}
