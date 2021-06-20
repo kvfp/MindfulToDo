@@ -1,19 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {
-  Avatar,
-  FormControl,
-  InputLabel,
-  ListItemAvatar,
-  MenuItem,
-} from "@material-ui/core";
+import { FormControl, InputLabel, MenuItem } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
-import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
-import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 import { SnackbarProvider, useSnackbar } from "notistack";
 
@@ -30,20 +21,12 @@ const useStyles = makeStyles((theme) => ({
   selectLabel: {},
 }));
 
-// EXPORT
 function ActualFields(props) {
-  const classes = useStyles();
-
   const [currentInput, setCurrentInput] = useState("");
   const [category, setCategory] = React.useState("");
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleClick = (msg) => {
-    enqueueSnackbar(msg);
-  };
-
   const handleClickVariant = (msg, variant) => {
-    // variant could be success, error, warning, info, or default
     enqueueSnackbar(msg, { variant });
   };
 
@@ -82,7 +65,6 @@ function ActualFields(props) {
           value={currentInput}
           onChange={(e) => {
             setCurrentInput(e.target.value);
-            console.log(currentInput);
           }}
           id="standard-basic"
           label="Task Name"
@@ -97,8 +79,6 @@ function ActualFields(props) {
           style={{ width: "10rem" }}
           startIcon={<AddIcon />}
           onClick={() => {
-            // TODO: Alert user if the input was not accepted for some reason
-
             setCurrentInput("");
             let isADuplicate = false;
             if (currentInput === "") {
@@ -116,7 +96,6 @@ function ActualFields(props) {
               }
             });
 
-            // TODO: Alert the user if no category was selected; suggest they choose one next time
             if (isADuplicate === false) {
               if (category !== undefined && category !== "") {
                 handleClickVariant(
@@ -148,6 +127,7 @@ function ActualFields(props) {
   );
 }
 
+// EXPORT
 export default function BasicTextField(props) {
   return (
     <SnackbarProvider maxSnack={3}>
