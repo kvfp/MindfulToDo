@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import { Avatar, FormControl, InputLabel, ListItemAvatar, MenuItem } from "@material-ui/core";
-import Select from '@material-ui/core/Select';
+import {
+  Avatar,
+  FormControl,
+  InputLabel,
+  ListItemAvatar,
+  MenuItem,
+} from "@material-ui/core";
+import Select from "@material-ui/core/Select";
 import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
-
 
 // STYLING
 const useStyles = makeStyles((theme) => ({
@@ -29,8 +34,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 150,
   },
-  selectLabel: {
-  }
+  selectLabel: {},
 }));
 
 function CategorySelect() {
@@ -41,7 +45,7 @@ function CategorySelect() {
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
-  }
+  };
 
   return (
     <FormControl className={classes.catSelect}>
@@ -61,11 +65,13 @@ function CategorySelect() {
         <MenuItem value={"other"}>Other</MenuItem>
       </Select>
     </FormControl>
-  )
+  );
 }
 // EXPORT
 export default function BasicTextFields() {
   const classes = useStyles();
+
+  const [currentInput, setCurrentInput] = useState("");
 
   // ***For Lauren***
   // Just a basic text field and add button to get you started. Feel free to style it as you'd like!
@@ -74,40 +80,42 @@ export default function BasicTextFields() {
   // the function as a prop down more than once!
 
   return (
-    
-  <form className={classes.root} noValidate autoComplete="off">
-    <Toolbar style={{ width: "100%" }}>
-      <Grid container spacing={5}>
-        <Grid item>
-          <TextField
-            id="standard-basic"
-            label="I need to..."
-            color="secondary"
-            inputProps={{
-              style: {
-                textAlign: "left",
-                verticalAlign: "center",
-                width: "36rem",
-              },
-            }}
-          />
+    <form className={classes.root} noValidate autoComplete="off">
+      <Toolbar style={{ width: "100%" }}>
+        <Grid container spacing={5}>
+          <Grid item>
+            <TextField
+              onChange={(e) => {
+                setCurrentInput(e.target.value);
+              }}
+              id="standard-basic"
+              label="I need to..."
+              color="secondary"
+              inputProps={{
+                style: {
+                  textAlign: "left",
+                  verticalAlign: "center",
+                  width: "36rem",
+                },
+              }}
+            />
+          </Grid>
+          <Grid item>
+            <CategorySelect />
+          </Grid>
+          <Grid item>
+            <div className={classes.fabRoot}>
+              <Fab color="primary" aria-label="add" variant="extended">
+                <AddIcon
+                  onClick={() => {
+                    alert("Ability to add entry is not yet functional");
+                  }}
+                />
+              </Fab>
+            </div>
+          </Grid>
         </Grid>
-        <Grid item>
-          <CategorySelect/>
-        </Grid>
-        <Grid item>
-          <div className={classes.fabRoot}>
-            <Fab color="primary" aria-label="add" variant="extended">
-              <AddIcon
-                onClick={() => {
-                  alert("Ability to add entry is not yet functional");
-                }}
-              />
-            </Fab>
-          </div>
-        </Grid>
-      </Grid>
-    </Toolbar>
-  </form>
+      </Toolbar>
+    </form>
   );
 }
