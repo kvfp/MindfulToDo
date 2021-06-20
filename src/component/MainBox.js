@@ -38,12 +38,16 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import GroupIcon from "@material-ui/icons/Group";
 import SchoolIcon from "@material-ui/icons/School";
 import WorkIcon from "@material-ui/icons/Work";
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
 import { getByDisplayValue } from "@testing-library/react";
 import { CategoryColors } from "../style/colors";
+import HelpIcon from "@material-ui/icons/Help";
 
 function getCategoryIcon(value) {
   if (value.category === "chores") {
-    return <DoneIcon style={{ color: CategoryColors["chores"] }} />;
+    return (
+      <LocalLaundryServiceIcon style={{ color: CategoryColors["chores"] }} />
+    );
   } else if (value.category === "school") {
     return <SchoolIcon style={{ color: CategoryColors["school"] }} />;
   } else if (value.category === "self-care") {
@@ -54,7 +58,7 @@ function getCategoryIcon(value) {
     return <WorkIcon style={{ color: CategoryColors["work"] }} />;
   } else {
     // other
-    return <EmojiEmotionsIcon style={{ color: CategoryColors["other"] }} />;
+    return <HelpIcon style={{ color: CategoryColors["other"] }} />;
   }
 }
 

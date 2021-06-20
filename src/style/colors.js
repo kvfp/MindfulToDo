@@ -1,6 +1,6 @@
 const CategoryColors = {
-  chores: "#540d6e",
-  other: "#5967ff",
+  chores: "#c97c5d",
+  other: "#5e548e",
   school: "#3bceac",
   selfcare: "#ee4266",
   social: "#ffd23f",
