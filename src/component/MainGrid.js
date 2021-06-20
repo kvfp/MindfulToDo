@@ -4,7 +4,6 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import MainBox from "./MainBox";
 import StatusBar from "./StatusBar";
-import { version } from "react-dom";
 
 // STYLING
 const useStyles = makeStyles((theme) => ({

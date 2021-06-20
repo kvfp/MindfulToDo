@@ -114,7 +114,6 @@ export default function StatusBar(props) {
   var ChoresTotal = 0;
 
   allEntries.forEach((entry) => {
-    console.log(entry);
     if (entry.category === "work") WorkTotal++;
     if (entry.category === "school") SchoolTotal++;
     if (entry.category === "self-care") SelfCareTotal++;

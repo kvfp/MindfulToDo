@@ -1,30 +1,22 @@
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import SwipeableViews from "react-swipeable-views";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
-import Zoom from "@material-ui/core/Zoom";
-import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
-import UpIcon from "@material-ui/icons/KeyboardArrowUp";
-import { green, red } from "@material-ui/core/colors";
+import { green } from "@material-ui/core/colors";
 import Box from "@material-ui/core/Box";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { indigo, orange, pink, cyan } from "@material-ui/core/colors";
+import { pink, cyan } from "@material-ui/core/colors";
 import Paper from "@material-ui/core/Paper";
-import { fontWeight } from "@material-ui/system";
 import React, { useState, useEffect } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
-import Avatar from "@material-ui/core/Avatar";
 import Icon from "@material-ui/core/Icon";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import BasicTextField from "./BasicTextField";
@@ -41,7 +33,6 @@ import { CategoryColors } from "../style/colors";
 import HelpIcon from "@material-ui/icons/Help";
 import { InputLabel } from "@material-ui/core";
 import { MenuItem } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
 import {
   Dialog,
   DialogTitle,
@@ -52,10 +43,6 @@ import {
 import { TextField } from "@material-ui/core";
 import { FormControl } from "@material-ui/core";
 import { Select } from "@material-ui/core";
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 function getCategoryIcon(value) {
   if (value.category === "chores") {
@@ -73,27 +60,6 @@ function getCategoryIcon(value) {
   } else {
     // other
     return <HelpIcon style={{ color: CategoryColors["other"] }} />;
-  }
-}
-
-// Each new instantiated Task increments curId by one:
-let curId = 0;
-class Task {
-  /**
-   * Creates a Task object given the name of the task (any string) and the name
-   * of its category (strings from a predetermined set: "work", "school","chores",
-   * "self-care", "social", and "other").
-   *
-   * @param {string} title the name of the task that appears in the list
-   * @param {string} category the name of the task category
-   */
-  constructor(title = "Do homework", category) {
-    this.title = title;
-    this.category = category;
-    this.id = curId;
-    curId = curId + 1;
-    this.done = false;
-    // optional: this.date = new Date() if anyone wants encapsulation of the date
   }
 }
 
@@ -188,7 +154,7 @@ export default function MainBox(props) {
 
   const scrollToLastEntry = () => {
     var element = document.getElementById("lastEntry");
-    if (element == undefined) return;
+    if (element === undefined) return;
     element.scrollIntoView();
   };
 
@@ -205,39 +171,10 @@ export default function MainBox(props) {
     setValue(index);
   };
 
-  const transitionDuration = {
-    enter: theme.transitions.duration.enteringScreen,
-    exit: theme.transitions.duration.leavingScreen,
-  };
-
-  // FAB stands for Floating Action Buttton. This is how they are currently styled.
-  // Notice we only see the `Add` fab. The others can be made visible
-  // by uncommenting some parts below.
-  const fabs = [
-    {
-      color: "primary",
-      className: classes.fab,
-      icon: <AddIcon />,
-      label: "Add",
-    },
-    {
-      color: "secondary",
-      className: classes.fab,
-      icon: <EditIcon />,
-      label: "Edit",
-    },
-    {
-      color: "inherit",
-      className: clsx(classes.fab, classes.fabGreen),
-      icon: <UpIcon />,
-      label: "Expand",
-    },
-  ];
-
   const formatDate = (date) => {
     let period = "AM";
     let hour = date.getHours();
-    if (hour == 12) {
+    if (hour === 12) {
       period = "PM";
     } else if (hour > 12) {
       hour = hour - 12;
@@ -264,6 +201,7 @@ export default function MainBox(props) {
     );
   };
 
+  // Allows the user to modify the title and/or the category of a to-do list item
   const DialogPopup = () => {
     return (
       <Dialog
@@ -344,10 +282,10 @@ export default function MainBox(props) {
             const labelId = `checkbox-list-secondary-label-${value.id}`;
             let isLast = false;
             entryCount += 1;
-            if (entryCount == allEntries.length) {
+            if (entryCount === allEntries.length) {
               isLast = true;
             }
-            // This dictates what appears in each list entry!
+            // What appears in each list entry:
             return (
               <ListItem
                 id={isLast === true ? "lastEntry" : "entry" + entryCount}
@@ -365,10 +303,6 @@ export default function MainBox(props) {
                   aria-label="delete"
                   color="primary"
                   onClick={() => {
-                    // ***For Lauren***
-                    // It should be fairly convenient to use `value` and `allEntries`
-                    // You will need to make a DeleteEntry function though inside MainGrid.js,
-                    // pass it down as a prop, and call it here! Feel free to edit the style of the icon button, etc.
                     props.remotelyHandleDelete(value.id);
                   }}
                 >
@@ -445,29 +379,6 @@ export default function MainBox(props) {
               label="NOW"
               {...a11yProps(0)}
             ></Tab>
-
-            {/* So these allow there to be multiple tabs in this grid box.
-            Try uncommenting below. It's pretty cool! 😎 As it adds more complexity,
-            we probably shouldn't worry about doing anything with it right now. */}
-
-            {/* <Tab
-              style={{
-                backgroundColor: "#264653",
-                fontWeight: "bold",
-                fontSize: "3rem",
-              }}
-              label="SOON"
-              {...a11yProps(1)}
-            />
-            <Tab
-              style={{
-                backgroundColor: "#264653",
-                fontWeight: "bold",
-                fontSize: "3rem",
-              }}
-              label="LATER"
-              {...a11yProps(2)}
-            /> */}
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -484,7 +395,6 @@ export default function MainBox(props) {
             {/* Contents of tab 1. */}
             <Paper
               style={{
-                // backgroundColor: "red",
                 width: "100%",
                 margin: 0,
                 padding: 0,
@@ -508,14 +418,6 @@ export default function MainBox(props) {
               />
             </Paper>
             <DialogPopup />
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            {/* Contents of tab 2. */}
-            Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            {/* Contents of tab 3. */}
-            Item Three
           </TabPanel>
         </SwipeableViews>
       </div>

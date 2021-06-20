@@ -1,20 +1,12 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import {
-  Avatar,
-  FormControl,
-  InputLabel,
-  ListItemAvatar,
-  MenuItem,
-} from "@material-ui/core";
+import { FormControl, InputLabel, MenuItem } from "@material-ui/core";
 import Select from "@material-ui/core/Select";
-import Paper from "@material-ui/core/Paper";
 import { Button } from "@material-ui/core";
 import { Toolbar } from "@material-ui/core";
-import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 // STYLING
 const useStyles = makeStyles((theme) => ({
@@ -29,18 +21,14 @@ const useStyles = makeStyles((theme) => ({
   selectLabel: {},
 }));
 
-// EXPORT
-export default function BasicTextFields(props) {
-  const classes = useStyles();
-
+function ActualFields(props) {
   const [currentInput, setCurrentInput] = useState("");
   const [category, setCategory] = React.useState("");
+  const { enqueueSnackbar } = useSnackbar();
 
-  // ***For Lauren***
-  // Just a basic text field and add button to get you started. Feel free to style it as you'd like!
-  // List state is stored inside of MainGrid.js, so you'll need to make your DeleteFunction there
-  // Because the file structure is MainGrid.js > TabPanel.js > BasicTextField, you'll need to pass
-  // the function as a prop down more than once!
+  const handleClickVariant = (msg, variant) => {
+    enqueueSnackbar(msg, { variant });
+  };
 
   const CategorySelect = () => {
     const classes = useStyles();
@@ -77,7 +65,6 @@ export default function BasicTextFields(props) {
           value={currentInput}
           onChange={(e) => {
             setCurrentInput(e.target.value);
-            console.log(currentInput);
           }}
           id="standard-basic"
           label="Task Name"
@@ -92,21 +79,40 @@ export default function BasicTextFields(props) {
           style={{ width: "10rem" }}
           startIcon={<AddIcon />}
           onClick={() => {
-            // TODO: Alert user if the input was not accepted for some reason
-
             setCurrentInput("");
             let isADuplicate = false;
-            if (currentInput === "") return;
+            if (currentInput === "") {
+              handleClickVariant(
+                "Input may not be empty. Please name your task.",
+                "error"
+              );
+              return;
+            }
             props.listOfEntries.map((obj) => {
               if (obj.title.toLowerCase() === currentInput.toLowerCase()) {
                 isADuplicate = true;
-                console.log("duplicate found!");
+                handleClickVariant("Duplicate items are not allowed.", "error");
                 return;
               }
             });
 
-            // TODO: Alert the user if no category was selected; suggest they choose one next time
             if (isADuplicate === false) {
+              if (category !== undefined && category !== "") {
+                handleClickVariant(
+                  "'" + currentInput + "' was successfully added to your list!",
+                  "success"
+                );
+              } else {
+                handleClickVariant(
+                  "We suggest adding a category next time so we can provide you with greater insight.",
+                  "info"
+                );
+                handleClickVariant(
+                  "'" + currentInput + "' was successfully added to your list!",
+                  "success"
+                );
+              }
+
               props.remotelyHandleAdd({
                 title: currentInput,
                 category: category,
@@ -118,5 +124,17 @@ export default function BasicTextFields(props) {
         </Button>
       </Toolbar>
     </form>
+  );
+}
+
+// EXPORT
+export default function BasicTextField(props) {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <ActualFields
+        remotelyHandleAdd={props.remotelyHandleAdd}
+        listOfEntries={props.listOfEntries}
+      />
+    </SnackbarProvider>
   );
 }
