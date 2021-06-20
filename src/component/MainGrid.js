@@ -10,15 +10,15 @@ import { version } from "react-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: "90rem",
-    height: "30rem",
+    width: "114rem",
+    height: "50rem",
     marginTop: "2rem",
     margin: "auto",
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    height: "38rem",
+    height: "50rem",
     color: theme.palette.text.secondary,
     backgroundColor: "#264653",
     borderRadius: "0rem",

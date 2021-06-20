@@ -338,7 +338,7 @@ export default function MainBox(props) {
           MenuProps={{ autoFocus: false }}
           dense
           className={classes.root}
-          style={{ width: "100%", maxHeight: "20rem", overflowY: "auto" }}
+          style={{ width: "100%", maxHeight: "36rem", overflowY: "auto" }}
         >
           {allEntries.map((value) => {
             const labelId = `checkbox-list-secondary-label-${value.id}`;

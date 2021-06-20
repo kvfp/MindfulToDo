@@ -54,7 +54,7 @@ export default function BasicTextFields(props) {
         <InputLabel>Category</InputLabel>
         <Select
           className={classes.selectLabel}
-          style={{ width: "10rem" }}
+          style={{ width: "20rem" }}
           id="category-selection"
           value={category.toLowerCase()}
           onChange={handleCategoryChange}
@@ -80,15 +80,16 @@ export default function BasicTextFields(props) {
             console.log(currentInput);
           }}
           id="standard-basic"
-          label="I need to..."
+          label="Task Name"
           color="secondary"
-          style={{ width: "40rem" }}
+          style={{ width: "45rem" }}
         />
         <CategorySelect />
         <Button
           color="primary"
           aria-label="add"
           variant="contained"
+          style={{ width: "10rem" }}
           startIcon={<AddIcon />}
           onClick={() => {
             // TODO: Alert user if the input was not accepted for some reason

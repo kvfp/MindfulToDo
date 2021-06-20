@@ -29,6 +29,7 @@ function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
       <CircularProgress
+        size="6rem"
         variant="determinate"
         {...props}
         style={{ color: CategoryColors[props.category] }}
@@ -72,9 +73,6 @@ for (let color in CategoryColors) {
       "& .MuiLinearProgress-dashedColorPrimary": {
         backgroundImage: "radial-gradient(#fff 5%, transparent 30%)",
       },
-    },
-    bar: {
-      borderWidth: "20px",
     },
   })(LinearProgress);
 }
@@ -181,7 +179,10 @@ export default function StatusBar(props) {
   function InsightsCard() {
     return (
       <>
-        <Typography style={{ fontWeight: "bold" }}>
+        <Typography
+          style={{ fontWeight: "bold", marginTop: "2rem" }}
+          variant="h5"
+        >
           Category Distribution
         </Typography>
         {/* TODO: This br makes me feel uncomfortable, but for some reason adding margins to the grid did not work.
@@ -227,7 +228,7 @@ export default function StatusBar(props) {
           {/* TODO: we can change this text based on how balanced the distribution of the user's tasks are 
           ex: if they focus on one category alone for 80% of their tasks, we can say something like
           "There is definite room for improvement!" */}
-          <Typography variant="h6">Balance is key!</Typography>
+          {/* <Typography variant="h6">Balance is key!</Typography> */}
         </Paper>
       </>
     );
@@ -245,7 +246,10 @@ export default function StatusBar(props) {
   // Though this works fine as is, it would look a lot cleaner if we made a generator of some sort
   return (
     <div>
-      <Typography style={{ fontWeight: "bold", padding: 0, margin: 0 }}>
+      <Typography
+        style={{ fontWeight: "bold", padding: 0, marginTop: "1rem" }}
+        variant="h5"
+      >
         Task Completion by Category
       </Typography>
       <ProgressTooltip title={WorkDone + "/" + WorkTotal} placement="left">
