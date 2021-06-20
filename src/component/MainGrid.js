@@ -35,7 +35,7 @@ class Task {
      going to be an as yet undefined object though so I still have to think about it.
   */
   constructor(title = "Do homework", category, isDone) {
-    if (category == "" || category == undefined) {
+    if (category === "" || category === undefined) {
       category = "other";
     }
 
@@ -68,7 +68,7 @@ export default function MainGrid() {
     var newState = [];
 
     // Copy old entries over
-    allEntries.map((_value) => {
+    allEntries.forEach((_value) => {
       newState.push(_value);
     });
 
@@ -87,7 +87,7 @@ export default function MainGrid() {
   const handleToggle = (value) => () => {
     if (lastAction !== "toggle") setLastAction("toggle");
     var newState = [];
-    allEntries.map((_value) => {
+    allEntries.forEach((_value) => {
       if (_value.id === value.id) {
         _value.done = !_value.done;
       }
@@ -102,14 +102,14 @@ export default function MainGrid() {
 
     // Still enforce the `no duplicate entries` rule here
     allEntries.forEach((_value) => {
-      if (_value.title.toLowerCase() == obj.title.toLowerCase()) {
+      if (_value.title.toLowerCase() === obj.title.toLowerCase()) {
         duplicateFound = true;
       }
     });
 
     if (duplicateFound === false) {
       var newState = [];
-      allEntries.map((_value) => {
+      allEntries.forEach((_value) => {
         if (_value.id === obj.id) {
           if (obj.category !== "") {
             _value.category = obj.category;

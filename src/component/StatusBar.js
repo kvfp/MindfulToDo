@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -62,7 +62,8 @@ function ProgressTooltip(props) {
 var StyledLinearProgressBars = {};
 
 for (let color in CategoryColors) {
-  StyledLinearProgressBars[color] = withStyles({
+  let colorName = color.charAt(0).toUpperCase() + color.slice(1);
+  StyledLinearProgressBars[colorName] = withStyles({
     root: {
       "& .MuiLinearProgress-colorPrimary": {
         backgroundColor: CategoryColors[color],
@@ -77,26 +78,11 @@ for (let color in CategoryColors) {
   })(LinearProgress);
 }
 
-const StyledLinearProgress = withStyles({
-  root: {
-    "& .MuiLinearProgress-colorPrimary": {
-      backgroundColor: "#e91e63",
-    },
-    "& .MuiLinearProgress-barColorPrimary": {
-      backgroundColor: "#e91e63",
-    },
-    "& .MuiLinearProgress-dashedColorPrimary": {
-      backgroundImage: "radial-gradient(#00bcd4 5%, transparent 20%)",
-    },
-  },
-})(LinearProgress);
-
 const CategoryLabel = withStyles({
   root: {
     color: "white",
     textAlign: "left",
   },
-  textColor: "white",
 })(Typography);
 
 // EXPORT
@@ -162,9 +148,9 @@ export default function StatusBar(props) {
 
   if (OtherTotal !== 0) OtherProgress = (OtherDone / OtherTotal) * 100;
 
-  if (SocialTotal !== 0) var SocialProgress = (SocialDone / SocialTotal) * 100;
+  if (SocialTotal !== 0) SocialProgress = (SocialDone / SocialTotal) * 100;
 
-  if (ChoresTotal !== 0) var ChoresProgress = (ChoresDone / ChoresTotal) * 100;
+  if (ChoresTotal !== 0) ChoresProgress = (ChoresDone / ChoresTotal) * 100;
 
   const getDistributionPercentage = (base) => {
     if (AllTotal === 0) return 0;
@@ -256,7 +242,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Work
           </CategoryLabel>
-          <StyledLinearProgressBars.work
+          <StyledLinearProgressBars.Work
             value={WorkProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -273,7 +259,7 @@ export default function StatusBar(props) {
           >
             School
           </CategoryLabel>
-          <StyledLinearProgressBars.school
+          <StyledLinearProgressBars.School
             value={SchoolProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -293,7 +279,7 @@ export default function StatusBar(props) {
           >
             Self Care
           </CategoryLabel>
-          <StyledLinearProgressBars.selfcare
+          <StyledLinearProgressBars.Selfcare
             value={SelfCareProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -305,7 +291,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Social
           </CategoryLabel>
-          <StyledLinearProgressBars.social
+          <StyledLinearProgressBars.Social
             value={SocialProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -317,7 +303,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Chores
           </CategoryLabel>
-          <StyledLinearProgressBars.chores
+          <StyledLinearProgressBars.Chores
             value={ChoresProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -329,7 +315,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Other
           </CategoryLabel>
-          <StyledLinearProgressBars.other
+          <StyledLinearProgressBars.Other
             value={OtherProgress}
             variant={"buffer"}
             valueBuffer={0}

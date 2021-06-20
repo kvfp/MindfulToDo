@@ -28,7 +28,7 @@ function ActualFields(props) {
 
   const handleClickVariant = (msg, variant) => {
     let autoHideDuration = 2000;
-    if (variant == "info") autoHideDuration = 3000;
+    if (variant === "info") autoHideDuration = 3000;
     enqueueSnackbar(msg, { variant, autoHideDuration });
   };
 
@@ -96,8 +96,8 @@ function ActualFields(props) {
               if (obj.title.toLowerCase() === currentInput.toLowerCase()) {
                 isADuplicate = true;
                 handleClickVariant("Duplicate items are not allowed.", "error");
-                return;
               }
+              return {};
             });
 
             if (isADuplicate === false) {
@@ -108,12 +108,12 @@ function ActualFields(props) {
                 );
               } else {
                 handleClickVariant(
-                  "We suggest adding a category next time so we can provide you with greater insight.",
-                  "info"
-                );
-                handleClickVariant(
                   "'" + currentInput + "' was successfully added to your list!",
                   "success"
+                );
+                handleClickVariant(
+                  "We suggest adding a category next time so we can provide you with greater insight.",
+                  "info"
                 );
               }
 
