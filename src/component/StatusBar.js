@@ -7,6 +7,7 @@ import { Tooltip } from "@material-ui/core";
 import { CircularProgress } from "@material-ui/core";
 import { Paper } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
+import { CategoryColors } from "../style/colors";
 
 // STYLING
 // TODO: We need to change the colors of each of the bars that represent a different category.
@@ -24,22 +25,14 @@ const useStylesBootstrap = makeStyles((theme) => ({
   },
 }));
 
-const categoryColors = {
-  chores: '#540d6e',
-  other: '#0ead69',
-  school: '#3bceac',
-  selfcare: '#ee4266',
-  social: '#ffd23f',
-  work: '540d6e'
-}
-
 function CircularProgressWithLabel(props) {
   return (
     <Box position="relative" display="inline-flex">
       <CircularProgress
+        size="6rem"
         variant="determinate"
         {...props}
-        style={{ color: "#e91e63" }}
+        style={{ color: CategoryColors[props.category] }}
       />
       <Box
         top={0}
@@ -66,11 +59,26 @@ function ProgressTooltip(props) {
   return <Tooltip arrow classes={classes} {...props} />;
 }
 
+var StyledLinearProgressBars = {};
+
+for (let color in CategoryColors) {
+  StyledLinearProgressBars[color] = withStyles({
+    root: {
+      "& .MuiLinearProgress-colorPrimary": {
+        backgroundColor: CategoryColors[color],
+      },
+      "& .MuiLinearProgress-barColorPrimary": {
+        backgroundColor: CategoryColors[color],
+      },
+      "& .MuiLinearProgress-dashedColorPrimary": {
+        backgroundImage: "radial-gradient(#fff 5%, transparent 30%)",
+      },
+    },
+  })(LinearProgress);
+}
+
 const StyledLinearProgress = withStyles({
   root: {
-    "&.MuiLinearProgress-colorPrimary:not(.MuiLinearProgress-buffer)": {
-      backgroundColor: "#e91e63",
-    },
     "& .MuiLinearProgress-colorPrimary": {
       backgroundColor: "#e91e63",
     },
@@ -159,13 +167,22 @@ export default function StatusBar(props) {
 
   if (ChoresTotal !== 0) var ChoresProgress = (ChoresDone / ChoresTotal) * 100;
 
+  const getDistributionPercentage = (base) => {
+    if (AllTotal === 0) return 0;
+    let percentage = (base / AllTotal) * 100;
+    return percentage;
+  };
+
   // This uses circular progress components to make it easier for users to
   // see which categories they tend to focus on the most (theoretically)
   // *note that this section does not take into account completion statuses
   function InsightsCard() {
     return (
       <>
-        <Typography style={{ fontWeight: "bold" }}>
+        <Typography
+          style={{ fontWeight: "bold", marginTop: "2rem" }}
+          variant="h5"
+        >
           Category Distribution
         </Typography>
         {/* TODO: This br makes me feel uncomfortable, but for some reason adding margins to the grid did not work.
@@ -176,27 +193,33 @@ export default function StatusBar(props) {
           <Grid item xs={0}>
             <CircularProgressWithLabel
               variant="determinate"
-              value={(WorkTotal / AllTotal) * 100}
+              value={getDistributionPercentage(WorkTotal)}
+              category="work"
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(SchoolTotal / AllTotal) * 100}
+              value={getDistributionPercentage(SchoolTotal)}
+              category="school"
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(SelfCareTotal / AllTotal) * 100}
+              value={getDistributionPercentage(SelfCareTotal)}
+              category="self-care"
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(SocialTotal / AllTotal) * 100}
+              value={getDistributionPercentage(SocialTotal)}
+              category="social"
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(ChoresTotal / AllTotal) * 100}
+              value={getDistributionPercentage(ChoresTotal)}
+              category="chores"
             />
             <CircularProgressWithLabel
               variant="determinate"
-              value={(OtherTotal / AllTotal) * 100}
+              value={getDistributionPercentage(OtherTotal)}
+              category="other"
             />
           </Grid>
         </Grid>
@@ -205,7 +228,7 @@ export default function StatusBar(props) {
           {/* TODO: we can change this text based on how balanced the distribution of the user's tasks are 
           ex: if they focus on one category alone for 80% of their tasks, we can say something like
           "There is definite room for improvement!" */}
-          <Typography variant="h6">Balance is key!</Typography>
+          {/* <Typography variant="h6">Balance is key!</Typography> */}
         </Paper>
       </>
     );
@@ -223,7 +246,10 @@ export default function StatusBar(props) {
   // Though this works fine as is, it would look a lot cleaner if we made a generator of some sort
   return (
     <div>
-      <Typography style={{ fontWeight: "bold", padding: 0, margin: 0 }}>
+      <Typography
+        style={{ fontWeight: "bold", padding: 0, marginTop: "1rem" }}
+        variant="h5"
+      >
         Task Completion by Category
       </Typography>
       <ProgressTooltip title={WorkDone + "/" + WorkTotal} placement="left">
@@ -231,7 +257,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Work
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.work
             value={WorkProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -248,7 +274,7 @@ export default function StatusBar(props) {
           >
             School
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.school
             value={SchoolProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -268,7 +294,7 @@ export default function StatusBar(props) {
           >
             Self Care
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.selfcare
             value={SelfCareProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -280,7 +306,7 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Social
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.social
             value={SocialProgress}
             variant={"buffer"}
             valueBuffer={0}
@@ -292,22 +318,19 @@ export default function StatusBar(props) {
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Chores
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.chores
             value={ChoresProgress}
             variant={"buffer"}
             valueBuffer={0}
           />
         </Box>
       </ProgressTooltip>
-      <ProgressTooltip
-        title={OtherDone + "/" + OtherTotal}
-        placement="left"
-      >
+      <ProgressTooltip title={OtherDone + "/" + OtherTotal} placement="left">
         <Box m={3}>
           <CategoryLabel variant="h6" component="h2" gutterBottom>
             Other
           </CategoryLabel>
-          <StyledLinearProgress
+          <StyledLinearProgressBars.other
             value={OtherProgress}
             variant={"buffer"}
             valueBuffer={0}

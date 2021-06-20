@@ -10,15 +10,15 @@ import { version } from "react-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: "90rem",
-    height: "42rem",
+    width: "114rem",
+    height: "50rem",
     marginTop: "2rem",
     margin: "auto",
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    height: "38rem",
+    height: "50rem",
     color: theme.palette.text.secondary,
     backgroundColor: "#264653",
     borderRadius: "0rem",
@@ -36,6 +36,10 @@ class Task {
      going to be an as yet undefined object though so I still have to think about it.
   */
   constructor(title = "Do homework", category, isDone) {
+    if (category == "" || category == undefined) {
+      category = "other";
+    }
+
     this.title = title;
     this.category = category;
     this.id = curId;
@@ -55,6 +59,7 @@ export default function MainGrid() {
   // is having the extra feature providing insight on how we value certain categories
   // through the number of tasks we have in each one and our progress in each category.
   // My 2 cents: let's keep them but provide users with a handy "delete all" button?
+  const [lastAction, setLastAction] = useState("");
   const [allEntries, setAllEntries] = useState([
     new Task("Do homework", "school", true),
     new Task("Eat dinner", "self-care", true),
@@ -71,7 +76,7 @@ export default function MainGrid() {
   ]);
 
   const handleAdd = (obj) => {
-    console.log("I got it!");
+    if (lastAction !== "add") setLastAction("add");
     var newState = [];
 
     // Copy old entries over
@@ -86,7 +91,13 @@ export default function MainGrid() {
     setAllEntries(newState);
   };
 
+  const handleDelete = (id) => {
+    if (lastAction !== "delete") setLastAction("delete");
+    setAllEntries((entries) => entries.filter((entry) => entry.id !== id));
+  };
+
   const handleToggle = (value) => () => {
+    if (lastAction !== "toggle") setLastAction("toggle");
     var newState = [];
     allEntries.map((_value) => {
       if (_value.id === value.id) {
@@ -97,7 +108,33 @@ export default function MainGrid() {
     setAllEntries(newState);
   };
 
-  // const remotelyS
+  const handleEdit = (obj) => {
+    if (lastAction !== "edit") setLastAction("edit");
+    var duplicateFound = false;
+
+    // Still enforce the `no duplicate entries` rule here
+    allEntries.forEach((_value) => {
+      if (_value.title.toLowerCase() == obj.title.toLowerCase()) {
+        duplicateFound = true;
+      }
+    });
+
+    if (duplicateFound === false) {
+      var newState = [];
+      allEntries.map((_value) => {
+        if (_value.id === obj.id) {
+          if (obj.category !== "") {
+            _value.category = obj.category;
+          }
+          if (obj.title !== "") {
+            _value.title = obj.title;
+          }
+        }
+        newState.push(_value);
+      });
+      setAllEntries(newState);
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -108,9 +145,12 @@ export default function MainGrid() {
             {/* This component is what actually houses the to-do list
             and manages the state of the list. */}
             <MainBox
+              remotelyHandleEdit={handleEdit}
               remotelyHandleToggle={handleToggle}
               listOfEntries={allEntries}
               remotelyHandleAdd={handleAdd}
+              remotelyHandleDelete={handleDelete}
+              addedNewEntry={lastAction === "add" ? true : false}
             />
             {/* Notice the props we passed to the `TabPanel` component.
             We'll have to do something similar to `remotelyHandleToggle` for all other list functions! */}

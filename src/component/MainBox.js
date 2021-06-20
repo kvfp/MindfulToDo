@@ -17,7 +17,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import { indigo, orange, pink, cyan } from "@material-ui/core/colors";
 import Paper from "@material-ui/core/Paper";
 import { fontWeight } from "@material-ui/system";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
@@ -32,37 +32,47 @@ import { Chip } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
-import DoneIcon from "@material-ui/icons/Done";
-import EmojiEmotionsIcon from "@material-ui/icons/EmojiEmotions";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import GroupIcon from "@material-ui/icons/Group";
 import SchoolIcon from "@material-ui/icons/School";
 import WorkIcon from "@material-ui/icons/Work";
-import { getByDisplayValue } from "@testing-library/react";
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
+import { CategoryColors } from "../style/colors";
+import HelpIcon from "@material-ui/icons/Help";
+import { InputLabel } from "@material-ui/core";
+import { MenuItem } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+import { FormControl } from "@material-ui/core";
+import { Select } from "@material-ui/core";
 
-const categoryColors = {
-  chores: "#540d6e",
-  other: "#5967ff",
-  school: "#3bceac",
-  "self-care": "#ee4266",
-  social: "#ffd23f",
-  work: "#403d39",
-};
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function getCategoryIcon(value) {
   if (value.category === "chores") {
-    return <DoneIcon style={{ color: categoryColors["chores"] }} />;
+    return (
+      <LocalLaundryServiceIcon style={{ color: CategoryColors["chores"] }} />
+    );
   } else if (value.category === "school") {
-    return <SchoolIcon style={{ color: categoryColors["school"] }} />;
+    return <SchoolIcon style={{ color: CategoryColors["school"] }} />;
   } else if (value.category === "self-care") {
-    return <FavoriteIcon style={{ color: categoryColors["self-care"] }} />;
+    return <FavoriteIcon style={{ color: CategoryColors["self-care"] }} />;
   } else if (value.category === "social") {
-    return <GroupIcon style={{ color: categoryColors["social"] }} />;
+    return <GroupIcon style={{ color: CategoryColors["social"] }} />;
   } else if (value.category === "work") {
-    return <WorkIcon style={{ color: categoryColors["work"] }} />;
+    return <WorkIcon style={{ color: CategoryColors["work"] }} />;
   } else {
     // other
-    return <EmojiEmotionsIcon style={{ color: categoryColors["other"] }} />;
+    return <HelpIcon style={{ color: CategoryColors["other"] }} />;
   }
 }
 
@@ -159,8 +169,32 @@ export default function MainBox(props) {
   const theme = useTheme();
 
   // STATE
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editId, setEditId] = useState(0);
+
+  var editCategory = "";
+  var editTitle = "";
+
+  const dialogHandleOpen = () => {
+    editCategory = "";
+    editTitle = "";
+    setDialogOpen(true);
+  };
+  const dialogHandleClose = () => {
+    setDialogOpen(false);
+  };
   var allEntries = props.listOfEntries; // We receive the list of all to-do list entries from MainGrid.js. Props are useful!
+
+  const scrollToLastEntry = () => {
+    var element = document.getElementById("lastEntry");
+    if (element == undefined) return;
+    element.scrollIntoView();
+  };
+
+  useEffect(() => {
+    if (props.addedNewEntry === true) scrollToLastEntry();
+  });
 
   // FUNCTIONS (no need to edit these ones in particular)
   const handleChange = (event, newValue) => {
@@ -230,21 +264,93 @@ export default function MainBox(props) {
     );
   };
 
+  const DialogPopup = () => {
+    return (
+      <Dialog
+        open={dialogOpen}
+        onClose={dialogHandleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Edit List Entry</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Enter the fields you'd like to change. <br />
+            The fields left blank will remain as is.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="normal"
+            id="edit-title"
+            label="Task Name"
+            fullWidth
+          />
+          <FormControl>
+            <InputLabel>Category</InputLabel>
+            <Select
+              style={{ width: "10rem" }}
+              inputProps={{ id: "edit-category" }}
+            >
+              <MenuItem value={"chores"}>Chores</MenuItem>
+              <MenuItem value={"school"}>School</MenuItem>
+              <MenuItem value={"self-care"}>Self-care</MenuItem>
+              <MenuItem value={"social"}>Social</MenuItem>
+              <MenuItem value={"work"}>Work</MenuItem>
+              <MenuItem value={"other"}>Other</MenuItem>
+            </Select>
+          </FormControl>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={dialogHandleClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={() => {
+              editCategory = document.getElementById("edit-category").value;
+              editTitle = document.getElementById("edit-title").value;
+
+              if (editCategory === undefined) editCategory = "";
+              if (editTitle === undefined) editTitle = "";
+
+              if (editCategory !== "" || editTitle !== "") {
+                props.remotelyHandleEdit({
+                  title: editTitle,
+                  category: editCategory,
+                  id: editId,
+                });
+              }
+              dialogHandleClose();
+            }}
+            color="secondary"
+          >
+            Save Changes
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  };
+
   const CheckboxListSecondary = () => {
+    var entryCount = 0;
+
     return (
       <Paper>
         <List
           MenuProps={{ autoFocus: false }}
           dense
           className={classes.root}
-          style={{ width: "100%", maxHeight: "20rem", overflowY: "auto" }}
+          style={{ width: "100%", maxHeight: "36rem", overflowY: "auto" }}
         >
           {allEntries.map((value) => {
             const labelId = `checkbox-list-secondary-label-${value.id}`;
-
+            let isLast = false;
+            entryCount += 1;
+            if (entryCount == allEntries.length) {
+              isLast = true;
+            }
             // This dictates what appears in each list entry!
             return (
               <ListItem
+                id={isLast === true ? "lastEntry" : "entry" + entryCount}
                 className={classes.listItem}
                 key={value.id}
                 disabled={false}
@@ -263,7 +369,7 @@ export default function MainBox(props) {
                     // It should be fairly convenient to use `value` and `allEntries`
                     // You will need to make a DeleteEntry function though inside MainGrid.js,
                     // pass it down as a prop, and call it here! Feel free to edit the style of the icon button, etc.
-                    alert("Ability to delete is not yet functional");
+                    props.remotelyHandleDelete(value.id);
                   }}
                 >
                   <DeleteIcon />
@@ -280,7 +386,10 @@ export default function MainBox(props) {
                 <Chip
                   label={formatDate(value.date)}
                   color="secondary"
-                  style={{ marginRight: "1rem", width: "auto" }}
+                  style={{
+                    marginRight: "1rem",
+                    width: "auto",
+                  }}
                 />
 
                 {/* Displays name (title) of task. */}
@@ -290,11 +399,8 @@ export default function MainBox(props) {
                   aria-label="edit"
                   color="primary"
                   onClick={() => {
-                    // ***For Rachel***
-                    // It should be fairly convenient to use `value` and `allEntries`
-                    // You will need to make an EditEntry function though inside MainGrid.js,
-                    // pass it down as a prop, and call it here! Feel free to edit the style of the icon button, etc.
-                    alert("Ability to edit is not yet functional");
+                    setEditId(value.id);
+                    dialogHandleOpen();
                   }}
                 >
                   <EditIcon />
@@ -401,6 +507,7 @@ export default function MainBox(props) {
                 remotelyHandleAdd={props.remotelyHandleAdd}
               />
             </Paper>
+            <DialogPopup />
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             {/* Contents of tab 2. */}
