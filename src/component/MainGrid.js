@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import TabPanel from "./TabPanel";
+import MainBox from "./MainBox";
 import StatusBar from "./StatusBar";
 import { version } from "react-dom";
 
@@ -89,7 +89,7 @@ export default function MainGrid() {
           <Paper className={classes.paper}>
             {/* This component is what actually houses the to-do list
             and manages the state of the list. */}
-            <TabPanel
+            <MainBox
               remotelyHandleToggle={handleToggle}
               listOfEntries={allEntries}
             />
