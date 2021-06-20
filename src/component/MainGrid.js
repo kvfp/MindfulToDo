@@ -36,6 +36,10 @@ class Task {
      going to be an as yet undefined object though so I still have to think about it.
   */
   constructor(title = "Do homework", category, isDone) {
+    if (category == "" || category == undefined) {
+      category = "other";
+    }
+
     this.title = title;
     this.category = category;
     this.id = curId;

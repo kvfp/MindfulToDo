@@ -111,6 +111,8 @@ export default function BasicTextFields(props) {
                 aria-label="add"
                 variant="extended"
                 onClick={() => {
+                  // TODO: Alert user if the input was not accepted for some reason
+
                   setCurrentInput("");
                   let isADuplicate = false;
                   if (currentInput === "") return;
@@ -123,6 +125,8 @@ export default function BasicTextFields(props) {
                       return;
                     }
                   });
+
+                  // TODO: Alert the user if no category was selected; suggest they choose one next time
                   if (isADuplicate === false) {
                     props.remotelyHandleAdd({
                       title: currentInput,
