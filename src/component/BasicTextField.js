@@ -84,6 +84,7 @@ export default function BasicTextFields(props) {
         <Grid container spacing={5}>
           <Grid item>
             <TextField
+              value={currentInput}
               onChange={(e) => {
                 setCurrentInput(e.target.value);
                 console.log(currentInput);
@@ -110,6 +111,7 @@ export default function BasicTextFields(props) {
                 aria-label="add"
                 variant="extended"
                 onClick={() => {
+                  setCurrentInput("");
                   let isADuplicate = false;
                   if (currentInput === "") return;
                   props.listOfEntries.map((obj) => {
