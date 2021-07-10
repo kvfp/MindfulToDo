@@ -1,30 +1,30 @@
-# Lab 1: To-do list application
-## Introduction
-As a team, you should create and style the front-end of a to-do list web application using React and Material UI components. A typical user wants to be able to use a to-do list to organize tasks. Keeping user stories in mind when designing applications helps determine important features. We encourage you to take a unique approach to this lab as there is no one right answer. 
-- [Material Design](https://material.io/design/introduction) is a design system that can guide you on what UI decisions to make if you would like to explore best practices, but functionality is the key focus of the lab.
-- No back-end is required for this lab, all data (tasks) should live in the front-end.
+# MindfulToDo
+The to-do list that reminds you of the importance of balance - powered by React and beautiful Material UI.
+
+### Try the demo here: https://kvfp-mindfultodo.herokuapp.com/
+![image](https://user-images.githubusercontent.com/20621545/125178468-0466ef00-e19a-11eb-885e-e5c58db911d4.png)
 
 
-## Requirements
-Feature requirements:
-+ **Take in and display** to do list items
-+ Allow users to **mark items as complete**
-+ Provide the **date and time of item addition**
-+ Validate there are **no duplicated items** (i.e. do not accept duplicate inputs)
-+ Give users the option to **update list items**
-+ Give users the option to **delete list items**
+## Intro
+This is a web app created by my IBM Accelerate team and I in the summer of 2021 for our first team lab! 🎉<br /> 
+Credits go to my awesome team: **@hkcountryman** **@madison2023** **@Sirenaaaa** **@lbrad543**<br /> 
+
+> For this project, we utilized React, JavaScript, and MaterialUI.
+
+## My Specific Contribution
++ Designed the bulk of MaterialUI component placement with ease-of-use in mind
++ Built the framework for basic task creation, sending data from nested components through props/passed functions
++ Implemented the ability to edit each task item with as little hassle as possible ![image](https://user-images.githubusercontent.com/20621545/125178902-e69b8900-e19d-11eb-81fc-e01e000e926f.png)
++ Implemented the notification system to provide clear feedback to users ![image](https://user-images.githubusercontent.com/20621545/125178917-0e8aec80-e19e-11eb-96c9-e6152a6b4d57.png)
 
 
-Implementation requirements:
-+ Use [**Material UI components**](https://material-ui.com/) at least once throughout the app
-+ Use JS's [**list.map**](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map) function at least once to manipulate list items
-+ Implement at least one **functional component**
+## Overall App Features
++ Build your to-do list, categorizing each task as you see fit (creation time-stamp is added automatically)
++ See the task item on your list, color-coded 🎨 according to its category
++ Easily edit the name or category of your task using a pop-up dialogue box
++ Mark each task as complete or delete it with a single click ✔️
++ See the breakdown of your tasks by completion in each category
++ Visualize your task distrubution by category 💭
++ ...and most importantly, give you more insight on your life-balance skills! 😎
 
-
-## Testing
-When testing web components, developers often use ids to uniquely define elements on a page. The React Testing Library provides a query which can identify items with the attribute data-testid to do just that (reference [here](https://testing-library.com/docs/queries/bytestid/)). We have implemented simple tests in `App.test.js` that will look for ids in your code. Do not push changes to the tests in this file. To get familiar with the idea of testing ids, implement the attributes below:
-+ `data-testid="new-item-input"` on the Input component which takes user input for new items.
-+ `data-testid="new-item-button"` on the Button component which submits new items to the to do list.
-
-
-Note: Material UI components (and other libraries) render as HTML components under the hood, so using Material UI's TextField would still render in the DOM as an Input element and pass the tests for this lab.
+### Thank you for viewing! 🙏
