@@ -12,7 +12,7 @@ Credits go to my awesome team: **@hkcountryman** **@madison2023** **@Sirenaaaa**
 > For this project, we utilized React, JavaScript, and MaterialUI. As this was a frontend exercise, no backend was implemented.
 
 ## My Specific Contribution
-+ Designed the bulk of MaterialUI component placement with ease-of-use in mind
++ Designed the bulk of MaterialUI component placement with usage and ease-of-use in mind
 + Built the framework for basic task creation, sending data from nested components through props/passed functions
 + Implemented the ability to edit each task item with as little hassle as possible ![image](https://user-images.githubusercontent.com/20621545/125178902-e69b8900-e19d-11eb-81fc-e01e000e926f.png)
 + Implemented the notification system to provide clear feedback to users ![image](https://user-images.githubusercontent.com/20621545/125178917-0e8aec80-e19e-11eb-96c9-e6152a6b4d57.png)
