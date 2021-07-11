@@ -9,7 +9,7 @@ The to-do list that reminds you of the importance of balance - powered by React 
 This is a web app created by my IBM Accelerate team and I in the summer of 2021 for our first team lab! 🎉<br /> 
 Credits go to my awesome team: **@hkcountryman** **@madison2023** **@Sirenaaaa** **@lbrad543**<br /> 
 
-> For this project, we utilized React, JavaScript, and MaterialUI. As this was a frontend exercise, no backend was implemented.
+> For this project, we utilized React, JavaScript, and MaterialUI. As this was a frontend exercise, no backend was implemented. (However, I intend to expand on our work and implement a backend to allow for data persistence!)
 
 ## My Specific Contribution
 + Designed the bulk of MaterialUI component placement with usage and ease-of-use in mind
