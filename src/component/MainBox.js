@@ -384,7 +384,7 @@ export default function MainBox(props) {
                 fontWeight: "bold",
                 fontSize: "3rem",
               }}
-              label="TO-DO LIST"
+              label="Tasks"
               {...a11yProps(0)}
             ></Tab>
           </Tabs>

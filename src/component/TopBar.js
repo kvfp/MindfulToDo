@@ -62,7 +62,7 @@ export default function TopBar() {
                 fontSize: "2rem",
               }}
             >
-              WYD?
+              Mindful To-Do
             </Typography>
           </Toolbar>
         </AppBar>
