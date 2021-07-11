@@ -2,7 +2,8 @@
 The to-do list that reminds you of the importance of balance - powered by React and beautiful Material UI.
 
 ### Try the demo here: https://kvfp-mindfultodo.herokuapp.com/
-![image](https://user-images.githubusercontent.com/20621545/125178468-0466ef00-e19a-11eb-885e-e5c58db911d4.png)
+![image](https://user-images.githubusercontent.com/20621545/125180879-19e91280-e1b4-11eb-82a2-492ef774b4c8.png)
+![image](https://user-images.githubusercontent.com/20621545/125180881-1e153000-e1b4-11eb-9919-09835d4a73f8.png)
 
 
 ## Intro
